@@ -4,10 +4,9 @@ import { tilt } from './rupture'
 import { RuptureOn, RuptureScript, RupturePlay } from './RuptureOn'
 
 const BANDS = [
-  { id: 'white', titleKey: 'phrase', color: '#16110e', gap: 1, seed: 2, words: ['GSAP', 'LENIS', 'SPLIT', 'PIN'] },
-  { id: 'gray', titleKey: 'breakLine', color: '#656565', gap: 3, seed: 6, words: ['BEAT', 'PATH', 'WIPE', 'HOP'] },
-  { id: 'dark', titleKey: 'rulesLine', color: '#a3a3a3', gap: 2, seed: 10, words: ['SCRUB', 'RAIL', 'IRIS', 'CUBE'] },
-  { id: 'darkest', titleKey: 'worthLine', color: '#d4cfc6', gap: 3, seed: 14, words: ['FRONT', 'ESTILO', 'TYPE', 'FEEL'] },
+  { id: 'white', titleKey: 'phrase', color: '#16110e', gap: 1, seed: 2, words: ['GSAP', 'LENIS', 'REACT', 'TAILWIND'] },
+  { id: 'gray', titleKey: 'breakLine', color: '#656565', gap: 3, seed: 6, words: ['NODE', 'LARAVEL', 'DJANGO', 'EXPRESS'] },
+  { id: 'darkest', titleKey: 'worthLine', color: '#d4cfc6', gap: 2, seed: 10, words: ['CRO', 'A/B', 'GTM', 'WP'] },
 ]
 
 function Marked({ text, mark }) {
@@ -430,7 +429,7 @@ export default function FitStack({
                         style={{ backgroundColor: band.color }}
                       >
                         <span
-                          className="px-2 text-center font-syne text-[clamp(0.7rem,1.6vw,1.05rem)] font-semibold tracking-[0.14em] uppercase"
+                          className="px-1.5 text-center font-syne text-[clamp(0.62rem,1.45vw,0.95rem)] font-semibold tracking-[0.08em] uppercase"
                           style={{ color: band.id === 'white' || band.id === 'gray' ? '#ebe6dc' : '#16110e' }}
                         >
                           {words[col]}
@@ -450,7 +449,7 @@ export default function FitStack({
                         style={{ backgroundColor: band.color }}
                       >
                         <span
-                          className="px-2 text-center font-syne text-[clamp(0.7rem,1.6vw,1.05rem)] font-semibold tracking-[0.14em] uppercase"
+                          className="px-1.5 text-center font-syne text-[clamp(0.62rem,1.45vw,0.95rem)] font-semibold tracking-[0.08em] uppercase"
                           style={{ color: band.id === 'white' || band.id === 'gray' ? '#ebe6dc' : '#16110e' }}
                         >
                           {words[col]}
