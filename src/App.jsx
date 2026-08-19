@@ -51,7 +51,6 @@ export default function App() {
             word5={t.hero.word5}
             note={t.hero.note}
             aside={t.hero.aside}
-            ruptureLabel={t.nav.rupture}
           />
           <FourPlates
             eyebrow={t.plates.eyebrow}

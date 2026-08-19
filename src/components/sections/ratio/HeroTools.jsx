@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../../../lib/gsap'
 import { tilt } from './rupture'
-import { RuptureOn, RuptureHit, RUPTURE_FILL } from './RuptureOn'
+import { RuptureOn, RUPTURE_FILL } from './RuptureOn'
 import {
   MAG_SCROLL,
   magScale,
@@ -327,7 +327,6 @@ export default function HeroTools({
   word5 = 'BASELINE',
   note = 'Type on the floor. A cube holds the fold and the ratio between them.',
   aside = '... type\nfold\nratio.',
-  ruptureLabel = 'Rupture',
 }) {
   const root = useRef(null)
   const form = glyphsOf(word1)
@@ -722,11 +721,10 @@ export default function HeroTools({
               <div data-top-frame className="relative h-full overflow-hidden border border-ratio-ink bg-ratio-paper">
                 <p
                   data-note
-                  className="absolute top-4 left-4 z-20 max-w-[min(36ch,calc(100%-5.5rem))] text-[11px] leading-[1.45] tracking-[0.04em] uppercase will-change-transform md:top-5 md:left-5"
+                  className="absolute top-4 left-4 z-20 max-w-[min(36ch,calc(100%-2rem))] text-[11px] leading-[1.45] tracking-[0.04em] uppercase will-change-transform md:top-5 md:left-5"
                 >
                   {note}
                 </p>
-                <RuptureHit index={0} label={ruptureLabel} className="!absolute top-4 right-4 z-30 !size-12 md:top-5 md:right-5" />
               </div>
             </div>
           </div>
