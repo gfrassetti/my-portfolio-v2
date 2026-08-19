@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, SplitText } from '../../../lib/gsap'
 import { tilt } from './rupture'
-import { RuptureOn, RuptureScript, RupturePlay } from './RuptureOn'
+import { RuptureOn, RuptureScript, RupturePlay, RuptureInline } from './RuptureOn'
 
 const BANDS = [
   { id: 'white', titleKey: 'phrase', color: '#16110e', gap: 1, seed: 2, words: ['GSAP', 'LENIS', 'REACT', 'TAILWIND'] },
@@ -471,6 +471,18 @@ export default function FitStack({
         className="relative z-10 flex min-h-svh flex-col items-center justify-center bg-ratio-field px-5 py-16 text-ratio-ink md:px-10 md:py-20"
       >
         <div data-ide-wash className="pointer-events-none absolute inset-0 bg-ratio-paper" aria-hidden="true" />
+
+        {/* Obys-style rupture figures around the IDE */}
+        <RuptureInline fig="arrow" className="top-[8%] right-[6%] w-[140px] md:w-[180px] rotate-[-8deg]" />
+        <RuptureInline fig="strike" word="RULES" className="top-[14%] left-[4%] w-[180px] md:w-[220px] rotate-[3deg]" />
+        <RuptureInline fig="asterisk" className="top-[6%] left-[28%] w-[40px] md:w-[52px]" />
+        <RuptureInline fig="bracket" className="bottom-[18%] left-[5%] h-[60px] md:h-[80px] w-auto" />
+        <RuptureInline fig="arrow-down" className="bottom-[12%] right-[8%] h-[80px] md:h-[100px] w-auto" />
+        <RuptureInline fig="pill" className="bottom-[28%] right-[4%] w-[140px] md:w-[170px] rotate-[-4deg]" />
+        <RuptureInline fig="cross" className="top-[42%] left-[3%] w-[36px] md:w-[44px] rotate-[15deg]" />
+        <RuptureInline fig="strike" word="FOLD" className="bottom-[8%] left-[20%] w-[160px] md:w-[200px] rotate-[-2deg]" />
+        <RuptureInline fig="arrow" className="top-[50%] right-[3%] w-[120px] rotate-[180deg]" />
+
         <TypeCode
           play={closerPlay}
           name={closer}

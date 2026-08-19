@@ -268,6 +268,67 @@ export function RupturePlay({
   )
 }
 
+/**
+ * Obys-style inline figures that appear only in rupture ON.
+ * Arrows, strike-words, brackets, asterisks scattered in sections.
+ */
+const INLINE_FIGS = {
+  arrow: (
+    <svg viewBox="0 0 160 40" fill="none">
+      <line x1="6" y1="20" x2="132" y2="20" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" />
+      <polyline points="122,8 140,20 122,32" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  ),
+  'arrow-down': (
+    <svg viewBox="0 0 40 120" fill="none">
+      <line x1="20" y1="6" x2="20" y2="96" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" />
+      <polyline points="8,84 20,102 32,84" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </svg>
+  ),
+  strike: (word) => (
+    <svg viewBox="0 0 200 48" fill="none">
+      <text x="100" y="35" textAnchor="middle" fontFamily="var(--font-syne)" fontWeight="700" fontSize="30" fill={RUPTURE_INK} letterSpacing="0.06em">
+        {word}
+      </text>
+      <line x1="10" y1="24" x2="190" y2="24" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" />
+    </svg>
+  ),
+  bracket: (
+    <svg viewBox="0 0 32 72" fill="none">
+      <path d="M26 6 C 14 6, 8 18, 8 36 C 8 54, 14 66, 26 66" stroke={RUPTURE_INK} strokeWidth="4.5" strokeLinecap="round" fill="none" />
+    </svg>
+  ),
+  asterisk: (
+    <svg viewBox="0 0 48 48" fill="none">
+      <line x1="24" y1="4" x2="24" y2="44" stroke={RUPTURE_INK} strokeWidth="4" strokeLinecap="round" />
+      <line x1="4" y1="24" x2="44" y2="24" stroke={RUPTURE_INK} strokeWidth="4" strokeLinecap="round" />
+      <line x1="10" y1="10" x2="38" y2="38" stroke={RUPTURE_INK} strokeWidth="4" strokeLinecap="round" />
+      <line x1="38" y1="10" x2="10" y2="38" stroke={RUPTURE_INK} strokeWidth="4" strokeLinecap="round" />
+    </svg>
+  ),
+  pill: (
+    <svg viewBox="0 0 160 44" fill="none">
+      <rect x="3" y="3" width="154" height="38" rx="19" stroke={RUPTURE_INK} strokeWidth="4.5" fill="none" />
+    </svg>
+  ),
+  cross: (
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="20" y="4" width="16" height="48" rx="1.5" fill={RUPTURE_INK} />
+      <rect x="4" y="20" width="48" height="16" rx="1.5" fill={RUPTURE_INK} />
+    </svg>
+  ),
+}
+
+export function RuptureInline({ fig = 'arrow', word, className = '', style }) {
+  const svg = fig === 'strike' ? INLINE_FIGS.strike(word || 'TEXT') : INLINE_FIGS[fig]
+  if (!svg) return null
+  return (
+    <span data-rupture-on className={`pointer-events-none absolute ${className}`} style={style} aria-hidden="true">
+      {svg}
+    </span>
+  )
+}
+
 /** Mr Bedfort overlay — fill matches the wash so it knocks out the grotesk. */
 export function RuptureScript({ children, className = '' }) {
   return (

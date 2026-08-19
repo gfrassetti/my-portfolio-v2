@@ -24,10 +24,15 @@ function subscribe(listener) {
   paint()
   return () => {
     listeners.delete(listener)
-    // Leaving the page must not leave the attribute (and the tilt) behind.
+    // Defer the reset: if a re-mount (locale change, key= swap) re-subscribes
+    // in the same tick, listeners won't be empty when the microtask runs.
     if (!listeners.size) {
-      ruptured = false
-      paint()
+      queueMicrotask(() => {
+        if (!listeners.size) {
+          ruptured = false
+          paint()
+        }
+      })
     }
   }
 }
