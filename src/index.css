@@ -182,11 +182,20 @@ html[data-ratio-rupture='on'] [data-rupture-off] {
   text-transform: uppercase;
   letter-spacing: -0.05em;
   color: var(--color-ratio-rupture);
-  -webkit-text-stroke: 1px #111;
+  -webkit-text-stroke: 0.055em #111;
   paint-order: stroke fill;
   pointer-events: none;
   line-height: 0.85;
   font-size: 1.08em;
+}
+
+[data-ledger-ghost] {
+  -webkit-text-stroke: 2px #ebe6dc;
+  paint-order: stroke fill;
+}
+
+html[data-ratio-rupture='on'] [data-ledger-ghost] {
+  -webkit-text-stroke: 6px #111;
 }
 
 [data-rupture-fly] {

@@ -138,8 +138,9 @@ export default function FooterLedger({
               return (
                 <span
                   key={`ch-${item.i}-${item.ch}`}
+                  data-ledger-ghost
                   aria-hidden="true"
-                  className="mb-[-0.08em] shrink-0 font-brico text-[clamp(7.5rem,42vh,22rem)] leading-none font-medium text-transparent uppercase [-webkit-text-stroke:2px_#ebe6dc]"
+                  className="mb-[-0.08em] shrink-0 font-brico text-[clamp(7.5rem,42vh,22rem)] leading-none font-medium text-transparent uppercase"
                 >
                   {item.ch}
                 </span>

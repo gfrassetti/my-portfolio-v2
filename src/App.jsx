@@ -62,78 +62,80 @@ export default function App() {
             nextImg={platesThrough}
           />
           <SplitStudy
-            kicker={t.laseraway.kicker}
-            meta={t.laseraway.meta}
-            index="01"
-            specLabel={t.laseraway.specLabel}
-            specValue={t.laseraway.specValue}
-            spec2Label={t.laseraway.spec2Label}
-            spec2Value={t.laseraway.spec2Value}
-            spec3Label={t.laseraway.spec3Label}
-            spec3Value={t.laseraway.spec3Value}
-            spec4Label={t.laseraway.spec4Label}
-            spec4Value={t.laseraway.spec4Value}
-            quote={t.laseraway.quote}
-            quoteBy="Guido Frassetti"
-            quoteRole={t.laseraway.role}
-            img={laserawayShot}
-            portrait={laserawayMark}
+            key={`study-${locale}`}
             anchor="study"
-          />
-          <SplitStudy
-            kicker={t.clashvault.kicker}
-            meta={t.clashvault.meta}
-            index="02"
-            specLabel={t.clashvault.specLabel}
-            specValue={t.clashvault.specValue}
-            spec2Label={t.clashvault.spec2Label}
-            spec2Value={t.clashvault.spec2Value}
-            spec3Label={t.clashvault.spec3Label}
-            spec3Value={t.clashvault.spec3Value}
-            spec4Label={t.clashvault.spec4Label}
-            spec4Value={t.clashvault.spec4Value}
-            quote={t.clashvault.quote}
-            quoteBy="Guido Frassetti"
-            quoteRole={t.clashvault.role}
-            img={clashvaultShot}
-            anchor="study-two"
-          />
-          <SplitStudy
-            kicker={t.mkmusic.kicker}
-            meta={t.mkmusic.meta}
-            index="03"
-            specLabel={t.mkmusic.specLabel}
-            specValue={t.mkmusic.specValue}
-            spec2Label={t.mkmusic.spec2Label}
-            spec2Value={t.mkmusic.spec2Value}
-            spec3Label={t.mkmusic.spec3Label}
-            spec3Value={t.mkmusic.spec3Value}
-            spec4Label={t.mkmusic.spec4Label}
-            spec4Value={t.mkmusic.spec4Value}
-            quote={t.mkmusic.quote}
-            quoteBy="Guido Frassetti"
-            quoteRole={t.mkmusic.role}
-            img={mkmusicMark}
-            contain
-            anchor="study-three"
-          />
-          <SplitStudy
-            kicker={t.encuentro.kicker}
-            meta={t.encuentro.meta}
-            index="04"
-            specLabel={t.encuentro.specLabel}
-            specValue={t.encuentro.specValue}
-            spec2Label={t.encuentro.spec2Label}
-            spec2Value={t.encuentro.spec2Value}
-            spec3Label={t.encuentro.spec3Label}
-            spec3Value={t.encuentro.spec3Value}
-            spec4Label={t.encuentro.spec4Label}
-            spec4Value={t.encuentro.spec4Value}
-            quote={t.encuentro.quote}
-            quoteBy="Guido Frassetti"
-            quoteRole={t.encuentro.role}
-            img={encuentroShot}
-            anchor="study-four"
+            cases={[
+              {
+                kicker: t.laseraway.kicker,
+                meta: t.laseraway.meta,
+                index: '01',
+                specLabel: t.laseraway.specLabel,
+                specValue: t.laseraway.specValue,
+                spec2Label: t.laseraway.spec2Label,
+                spec2Value: t.laseraway.spec2Value,
+                spec3Label: t.laseraway.spec3Label,
+                spec3Value: t.laseraway.spec3Value,
+                spec4Label: t.laseraway.spec4Label,
+                spec4Value: t.laseraway.spec4Value,
+                quote: t.laseraway.quote,
+                quoteBy: 'Guido Frassetti',
+                quoteRole: t.laseraway.role,
+                img: laserawayShot,
+                portrait: laserawayMark,
+              },
+              {
+                kicker: t.clashvault.kicker,
+                meta: t.clashvault.meta,
+                index: '02',
+                specLabel: t.clashvault.specLabel,
+                specValue: t.clashvault.specValue,
+                spec2Label: t.clashvault.spec2Label,
+                spec2Value: t.clashvault.spec2Value,
+                spec3Label: t.clashvault.spec3Label,
+                spec3Value: t.clashvault.spec3Value,
+                spec4Label: t.clashvault.spec4Label,
+                spec4Value: t.clashvault.spec4Value,
+                quote: t.clashvault.quote,
+                quoteBy: 'Guido Frassetti',
+                quoteRole: t.clashvault.role,
+                img: clashvaultShot,
+              },
+              {
+                kicker: t.mkmusic.kicker,
+                meta: t.mkmusic.meta,
+                index: '03',
+                specLabel: t.mkmusic.specLabel,
+                specValue: t.mkmusic.specValue,
+                spec2Label: t.mkmusic.spec2Label,
+                spec2Value: t.mkmusic.spec2Value,
+                spec3Label: t.mkmusic.spec3Label,
+                spec3Value: t.mkmusic.spec3Value,
+                spec4Label: t.mkmusic.spec4Label,
+                spec4Value: t.mkmusic.spec4Value,
+                quote: t.mkmusic.quote,
+                quoteBy: 'Guido Frassetti',
+                quoteRole: t.mkmusic.role,
+                img: mkmusicMark,
+                contain: true,
+              },
+              {
+                kicker: t.encuentro.kicker,
+                meta: t.encuentro.meta,
+                index: '04',
+                specLabel: t.encuentro.specLabel,
+                specValue: t.encuentro.specValue,
+                spec2Label: t.encuentro.spec2Label,
+                spec2Value: t.encuentro.spec2Value,
+                spec3Label: t.encuentro.spec3Label,
+                spec3Value: t.encuentro.spec3Value,
+                spec4Label: t.encuentro.spec4Label,
+                spec4Value: t.encuentro.spec4Value,
+                quote: t.encuentro.quote,
+                quoteBy: 'Guido Frassetti',
+                quoteRole: t.encuentro.role,
+                img: encuentroShot,
+              },
+            ]}
           />
           <FitStack
             key={`notes-${locale}`}
@@ -169,6 +171,10 @@ export default function App() {
           row1Value={t.footer.row1Value}
           row2Label={t.footer.row2Label}
           row2Value="guidofrassetti@gmail.com"
+          row3Label={t.footer.row3Label}
+          row3Value={t.footer.row3Value}
+          row4Label={t.footer.row4Label}
+          row4Value={t.footer.row4Value}
           spine1Title={t.plates.one}
           spine1Author={t.footer.stack1}
           spine2Title={t.plates.two}
