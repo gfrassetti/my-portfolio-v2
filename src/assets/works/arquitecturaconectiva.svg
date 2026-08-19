@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Arquitectura Conectiva">
+  <defs>
+    <linearGradient id="ac-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1c1917"/>
+      <stop offset="100%" style="stop-color:#292524"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#ac-bg)"/>
+  <path
+    d="M120 320 L400 140 L680 320 Z"
+    fill="none"
+    stroke="#a8a29e"
+    stroke-width="2"
+    opacity="0.9"
+  />
+  <line x1="400" y1="140" x2="400" y2="320" stroke="#d6d3d1" stroke-width="1.5" opacity="0.7"/>
+  <text
+    x="400"
+    y="370"
+    text-anchor="middle"
+    fill="#fafaf9"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="32"
+    font-weight="600"
+    letter-spacing="0.06em"
+  >ARQUITECTURA</text>
+  <text
+    x="400"
+    y="408"
+    text-anchor="middle"
+    fill="#a8a29e"
+    font-family="system-ui, sans-serif"
+    font-size="18"
+    letter-spacing="0.35em"
+  >CONECTIVA</text>
+</svg>
