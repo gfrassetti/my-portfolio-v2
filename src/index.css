@@ -156,6 +156,31 @@ html[data-ratio-rupture='on'] #systems {
   color: #111 !important;
 }
 
+html[data-ratio-rupture='on'] [data-plate-card] {
+  border-color: transparent;
+  outline: 3px solid #111;
+  outline-offset: -14px;
+}
+
+.ratio-script {
+  position: absolute;
+  left: 0;
+  top: auto;
+  bottom: 0;
+  font-family: var(--font-rupture);
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  color: var(--color-ratio-rupture);
+  -webkit-text-stroke: 0.055em #111;
+  paint-order: stroke fill;
+  pointer-events: none;
+  line-height: 0.85;
+  font-size: 0.78em;
+  white-space: nowrap;
+}
+
 html[data-ratio-rupture='on'] [data-fit-lid] .ratio-ide {
   color: #d4d4d4 !important;
 }
@@ -173,20 +198,6 @@ html[data-ratio-rupture='on'] [data-rupture-off] {
 [data-swatch-fill].is-zoom > [data-rupture-off] {
   visibility: hidden;
   opacity: 0;
-}
-
-.ratio-script {
-  font-family: var(--font-rupture);
-  font-weight: 400;
-  font-style: normal;
-  text-transform: uppercase;
-  letter-spacing: -0.05em;
-  color: var(--color-ratio-rupture);
-  -webkit-text-stroke: 0.055em #111;
-  paint-order: stroke fill;
-  pointer-events: none;
-  line-height: 0.85;
-  font-size: 1.08em;
 }
 
 [data-ledger-ghost] {

@@ -405,9 +405,7 @@ export default function FitStack({
           <h2 className="pointer-events-none absolute top-[18%] left-0 z-10 max-w-[16ch] px-5 font-syne text-[clamp(2.2rem,7vw,6.2rem)] font-semibold leading-[0.84] tracking-[-0.05em] uppercase md:px-10">
             <span className="relative inline-block">
               {titles[band.titleKey]}
-              <RuptureScript className="absolute top-0 left-0 origin-left">
-                {titles[band.titleKey]}
-              </RuptureScript>
+              <RuptureScript>{titles[band.titleKey]}</RuptureScript>
             </span>
           </h2>
 

@@ -241,9 +241,7 @@ export default function FourPlates({
           >
             <span className="relative inline-block">
               {eyebrow}
-              <RuptureScript className="absolute top-0 left-0 origin-left whitespace-nowrap">
-                {eyebrow}
-              </RuptureScript>
+              <RuptureScript>{eyebrow}</RuptureScript>
             </span>
           </h2>
 

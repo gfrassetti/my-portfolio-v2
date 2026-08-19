@@ -221,15 +221,15 @@ function paintGlyph(el, s) {
   })
 }
 
-/** Obys On overlay: Mr Bedfort, 197px mag, −10 tracking, ink stroke. */
+/** Obys On overlay: always smaller than the sibling glyph. */
 function paintScript(el, s) {
   if (!el) return
-  const px = 197 * s
+  const px = FONT * 0.72 * s
   Object.assign(el.style, {
     position: 'absolute',
     left: '0px',
     top: 'auto',
-    bottom: `${Math.round(-0.08 * px)}px`,
+    bottom: `${Math.round(-0.06 * px)}px`,
     display: 'block',
     width: 'max-content',
     height: `${0.9 * px}px`,
@@ -240,7 +240,7 @@ function paintScript(el, s) {
     lineHeight: '0.9',
     letterSpacing: `${TRACK * s}px`,
     color: RUPTURE_FILL,
-    WebkitTextStroke: '0.045em #111',
+    WebkitTextStroke: '0.055em #111',
     paintOrder: 'stroke fill',
     textTransform: 'uppercase',
     overflow: 'visible',
