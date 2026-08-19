@@ -21,7 +21,7 @@ export const es = {
     word3: 'GUIDO',
     word4: 'WEB',
     word5: 'DEVELOPER',
-    note: 'React, Next.js, Node, WordPress — productos de alto tráfico.',
+    note: 'Landings, A/B y APIs — el stack que mueve producto.',
     aside: 'Buenos Aires\nWeb\n+5 años',
   },
   plates: {
@@ -158,7 +158,7 @@ export const en = {
     word3: 'GUIDO',
     word4: 'WEB',
     word5: 'DEVELOPER',
-    note: 'React, Next.js, Node, WordPress — high-traffic products.',
+    note: 'Landings, A/B and APIs — the stack that moves product.',
     aside: 'Buenos Aires\nWeb\n+5 years',
   },
   plates: {
