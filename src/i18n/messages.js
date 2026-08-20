@@ -10,9 +10,9 @@ export const es = {
     index: 'Índice',
   },
   desk: {
-    line1: 'Rotá el dispositivo',
-    line2: 'para ver la experiencia.',
-    line3: 'Este portfolio está pensado para desktop.',
+    line1: 'Este portfolio es solo para desktop.',
+    line2: '',
+    line3: '',
     aria: 'Solo desktop',
   },
   hero: {
@@ -146,9 +146,9 @@ export const en = {
     index: 'Index',
   },
   desk: {
-    line1: 'Rotate your device',
-    line2: 'for the full experience.',
-    line3: 'This portfolio is built for desktop.',
+    line1: 'This portfolio is desktop only.',
+    line2: '',
+    line3: '',
     aria: 'Desktop only',
   },
   hero: {

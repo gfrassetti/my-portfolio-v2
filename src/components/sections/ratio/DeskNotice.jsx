@@ -1,13 +1,14 @@
 /**
- * Mobile gate — this scrollytelling is a desktop template.
+ * Mobile gate — this scrollytelling is desktop only. No rotate hint.
  */
 export default function DeskNotice({
   brand = 'RATIO',
-  line1 = 'Rotate your device',
-  line2 = 'for the best experience.',
-  line3 = 'This template is built for desktop.',
+  line1 = 'This portfolio is desktop only.',
+  line2 = '',
+  line3 = '',
   ariaLabel = 'Desktop only',
 }) {
+  const lines = [line1, line2, line3].filter(Boolean)
   return (
     <div
       data-desk-notice
@@ -20,12 +21,13 @@ export default function DeskNotice({
           <span aria-hidden="true" className="size-[0.78em] shrink-0 bg-ratio-mark" />
           {brand}
         </p>
-        <p className="mt-8 max-w-[24ch] text-[15px] leading-[1.35] tracking-[-0.012em]">
-          {line1}
-          <br />
-          {line2}
-          <br />
-          {line3}
+        <p className="mt-8 max-w-[28ch] text-[15px] leading-[1.35] tracking-[-0.012em]">
+          {lines.map((line, i) => (
+            <span key={line}>
+              {i > 0 ? <br /> : null}
+              {line}
+            </span>
+          ))}
         </p>
         <div className="mt-10 h-[min(22vh,11rem)] w-full bg-ratio-field" />
       </div>
