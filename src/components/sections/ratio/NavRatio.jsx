@@ -5,7 +5,7 @@ import { attachScroll, magScale } from '../../../lib/beat'
 import RuptureLayer from './RuptureLayer'
 
 const LINK_CLASS =
-  'px-1.5 py-0.5 text-[10px] tracking-[0.2em] uppercase md:text-[11px]'
+  'px-1.5 py-0.5 text-[10px] tracking-[0.2em] uppercase max-[479px]:px-1 max-[479px]:tracking-[0.14em] md:text-[11px]'
 
 /**
  * NavRatio — hairline bar (brand + locale). Index sits as a bottom dock,
@@ -34,17 +34,20 @@ export default function NavRatio({
       if (!shell || pieceEls.length !== phs.length || !pieceEls.length) return undefined
 
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      const floorGap = () => (window.matchMedia('(min-width: 768px)').matches ? 24 : 20)
+      const isDock = () => window.matchMedia('(max-width: 767px)').matches
+      const floorGap = () => (isDock() ? 14 : window.matchMedia('(min-width: 768px)').matches ? 24 : 20)
 
       const layout = () => {
-        const gapX = 8
-        const padX = 18
-        const padY = 10
+        const dock = isDock()
+        const gapX = dock ? 10 : 8
+        const padX = dock ? 16 : 18
+        const padY = dock ? 8 : 10
         const widths = pieceEls.map((el) => el.offsetWidth)
         const h = Math.max(...pieceEls.map((el) => el.offsetHeight), 16)
         const row = widths.reduce((n, w) => n + w, 0) + gapX * (pieceEls.length - 1)
+        const vw = window.innerWidth
         const top = window.innerHeight - h - padY * 2 - floorGap()
-        let x = (window.innerWidth - row) / 2
+        let x = Math.max(padX, (vw - row) / 2)
         const from = pieceEls.map((_, i) => {
           const pos = { top, left: x }
           x += widths[i] + gapX
@@ -68,6 +71,26 @@ export default function NavRatio({
 
       let players = []
       let st
+
+      const parkDock = () => {
+        const { from, shell: box } = layout()
+        gsap.set(shell, { ...box, autoAlpha: 1 })
+        pieceEls.forEach((el, i) => {
+          el.style.removeProperty('offset-path')
+          el.style.removeProperty('offset-distance')
+          el.style.removeProperty('offset-rotate')
+          el.style.transform = ''
+          gsap.set(el, {
+            position: 'fixed',
+            top: from[i].top,
+            left: from[i].left,
+            x: 0,
+            y: 0,
+            autoAlpha: 1,
+          })
+        })
+        slashes.forEach((el) => gsap.set(el, { opacity: 0 }))
+      }
 
       const mountRails = () => {
         players = []
@@ -116,6 +139,10 @@ export default function NavRatio({
 
       const bind = () => {
         st?.kill()
+        if (isDock()) {
+          parkDock()
+          return
+        }
         mountRails()
         const drawer = document.querySelector('[data-drawer]')
         if (!drawer) {
@@ -130,10 +157,15 @@ export default function NavRatio({
           scrub: reduced ? true : 0.6,
           invalidateOnRefresh: true,
           onRefresh(self) {
+            if (isDock()) {
+              parkDock()
+              return
+            }
             mountRails()
             seekAll(self.progress)
           },
           onUpdate(self) {
+            if (isDock()) return
             seekAll(self.progress)
           },
         })
@@ -146,9 +178,12 @@ export default function NavRatio({
           ScrollTrigger.refresh()
         })
       })
+      const onResize = () => bind()
+      window.addEventListener('resize', onResize)
 
       return () => {
         cancelAnimationFrame(later)
+        window.removeEventListener('resize', onResize)
         st?.kill()
       }
     },
@@ -162,10 +197,10 @@ export default function NavRatio({
         className="fixed inset-x-0 top-0 z-50 border-b border-ratio-ink bg-ratio-paper text-ratio-ink"
       >
         <div className="flex h-11 items-center gap-3 px-3 text-[10px] tracking-[0.18em] uppercase md:h-12 md:px-5 md:text-[11px]">
-          <a href="#top" className="shrink-0 font-medium">
+          <a href="#top" className="max-w-[42vw] shrink-0 truncate font-medium min-[480px]:max-w-none">
             {brand}
           </a>
-          <div data-nav-slot className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
+          <div data-nav-slot className="hidden min-h-0 min-w-0 flex-1 items-center justify-center md:flex">
             {items.map((item, i) => (
               <span key={item.label} className="flex items-center">
                 {i > 0 ? (

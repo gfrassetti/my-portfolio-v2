@@ -35,6 +35,21 @@ html {
 body {
   @apply bg-ratio-paper font-brico text-ratio-ink antialiased;
   overflow-x: clip;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Mobile-first: Beat stage stays interactive; avoid 300ms tap delay on chrome */
+@media (max-width: 479px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  [data-hero-pin],
+  [data-plates-pin],
+  [data-ledger-pin] {
+    touch-action: pan-y;
+  }
 }
 
 .font-display.italic {

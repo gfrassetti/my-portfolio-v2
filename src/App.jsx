@@ -1,7 +1,7 @@
 import SmoothScrollProvider from './components/SmoothScrollProvider.jsx'
 import NavRatio from './components/sections/ratio/NavRatio.jsx'
-import DeskNotice from './components/sections/ratio/DeskNotice.jsx'
 import HeroTools from './components/sections/ratio/HeroTools.jsx'
+import HeroKinetic from './components/sections/chapters/HeroKinetic.jsx'
 import FourPlates from './components/sections/ratio/FourPlates.jsx'
 import SplitStudy from './components/sections/ratio/SplitStudy.jsx'
 import FitStack from './components/sections/ratio/FitStack.jsx'
@@ -13,20 +13,15 @@ import mkmusicMark from './assets/works/mkmusicandevents.svg'
 import encuentroShot from './assets/works/encuentro.png'
 import platesThrough from './components/sections/ratio/assets/plates-through.jpg'
 import { useI18n } from './i18n/I18n.jsx'
+import { useIsMobile } from './lib/useIsMobile.js'
 
 export default function App() {
   const { locale, setLocale, t } = useI18n()
+  const isMobile = useIsMobile()
 
   return (
     <SmoothScrollProvider>
-      <div id="top" className="bg-ratio-paper text-ratio-ink max-lg:h-svh max-lg:overflow-hidden">
-        <DeskNotice
-          brand="GF"
-          line1={t.desk.line1}
-          line2={t.desk.line2}
-          line3={t.desk.line3}
-          ariaLabel={t.desk.aria}
-        />
+      <div id="top" className="bg-ratio-paper text-ratio-ink">
         <NavRatio
           brand="GUIDO FRASSETTI"
           links={t.nav.links}
@@ -42,16 +37,32 @@ export default function App() {
         />
 
         <main>
-          <HeroTools
-            key={locale}
-            word1={t.hero.word1}
-            word2={t.hero.word2}
-            word3={t.hero.word3}
-            word4={t.hero.word4}
-            word5={t.hero.word5}
-            note={t.hero.note}
-            aside={t.hero.aside}
-          />
+          <div id="intro">
+            {isMobile ? (
+              <HeroKinetic
+                key={`kinetic-${locale}`}
+                word1={t.hero.word1}
+                word2={t.hero.word2}
+                word3={t.hero.word3}
+                word4={t.hero.word4}
+                word5={t.hero.word5}
+                kicker={t.hero.note}
+                meta={t.hero.kineticMeta}
+                hint={t.hero.kineticHint}
+              />
+            ) : (
+              <HeroTools
+                key={locale}
+                word1={t.hero.word1}
+                word2={t.hero.word2}
+                word3={t.hero.word3}
+                word4={t.hero.word4}
+                word5={t.hero.word5}
+                note={t.hero.note}
+                aside={t.hero.aside}
+              />
+            )}
+          </div>
           <FourPlates
             eyebrow={t.plates.eyebrow}
             plate1Title={t.plates.one}
@@ -59,6 +70,7 @@ export default function App() {
             plate3Title={t.plates.three}
             plate4Title={t.plates.four}
             nextImg={platesThrough}
+            overlap={!isMobile}
           />
           <SplitStudy
             key={`study-${locale}`}
@@ -148,6 +160,9 @@ export default function App() {
             breakLine={t.notes.breakLine}
             rulesLine={t.notes.rulesLine}
             worthLine={t.notes.worthLine}
+            frontBlurb={t.notes.frontBlurb}
+            backBlurb={t.notes.backBlurb}
+            growthBlurb={t.notes.growthBlurb}
             closer={t.notes.closer}
             closerPlay={t.notes.closerPlay}
             closerArg={t.notes.closerArg}

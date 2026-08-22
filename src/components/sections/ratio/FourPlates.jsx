@@ -73,6 +73,7 @@ export default function FourPlates({
   plate3Title = 'Ratio',
   plate4Title = 'Baseline',
   nextImg,
+  overlap = true,
 }) {
   const root = useRef(null)
   const holeMaskId = `ratio-plate-hole-${useId().replace(/:/g, '')}`
@@ -117,9 +118,9 @@ export default function FourPlates({
       if (reduced) return undefined
 
       const mm = gsap.matchMedia()
-      mm.add('(min-width: 1024px)', () => {
+      const runPlates = ({ endPct, fullExit }) => {
         const s = magScale(pin.offsetWidth)
-        const hop = Math.round((pin.offsetHeight * 0.26) / s)
+        const hop = Math.round((pin.offsetHeight * (fullExit ? 0.26 : 0.18)) / s)
         const players = swatches.map((sw, i) => attachScroll(sw, tumbleSteps(i, hop), s))
         const tumbleEnd = Math.max(...players.map((p) => p.duration), 1)
         const proxy = { px: 0 }
@@ -129,7 +130,7 @@ export default function FourPlates({
           scrollTrigger: {
             trigger: root.current,
             start: 'top top',
-            end: '+=560%',
+            end: `+=${endPct}%`,
             pin: '[data-plates-pin]',
             scrub: true,
             anticipatePin: 1,
@@ -141,8 +142,8 @@ export default function FourPlates({
         tl.to({}, { duration: 0.32 }, 1.15)
 
         if (titleEl) tl.to(titleEl, { autoAlpha: 0, duration: 0.24 }, 1.47)
-        tl.to('[data-plate-foot]', { autoAlpha: 0, duration: 0.2 }, 1.47)
-        tl.to(fills.slice(1), { autoAlpha: 0.48, duration: 0.22 }, 1.55)
+        tl.to('[data-plate-foot]', { autoAlpha: fullExit ? 0 : 0.35, duration: 0.2 }, 1.47)
+        tl.to(fills.slice(1), { autoAlpha: fullExit ? 0.48 : 0.72, duration: 0.22 }, 1.55)
 
         tl.to(
           proxy,
@@ -153,6 +154,15 @@ export default function FourPlates({
           },
           1.55,
         )
+
+        if (!fullExit) {
+          // Mobile: keep stack present — no black void / veil punch
+          tl.to(fills, { autoAlpha: 1, duration: 0.35 }, 3.1)
+          tl.to('[data-plate-foot]', { autoAlpha: 1, duration: 0.25 }, 3.1)
+          if (titleEl) tl.to(titleEl, { autoAlpha: 1, duration: 0.25 }, 3.15)
+          tl.to({}, { duration: 0.4 }, 3.4)
+          return
+        }
 
         fills.slice(1).forEach((fill, i) => {
           tl.to(fill, { autoAlpha: 0, duration: 0.38 }, 3.22 + i * 0.05)
@@ -185,13 +195,11 @@ export default function FourPlates({
           )
           tl.to({}, { duration: 0.28 }, 4.87)
         }
-      })
+      }
 
-      mm.add('(max-width: 1023px)', () => {
-        gsap.set(drawer, { yPercent: 0 })
-        gsap.set(cards, { autoAlpha: 1 })
-        gsap.set(fills, { autoAlpha: 1, scale: 1 })
-      })
+      mm.add('(min-width: 1024px)', () => runPlates({ endPct: 560, fullExit: true }))
+      mm.add('(min-width: 480px) and (max-width: 1023px)', () => runPlates({ endPct: 360, fullExit: true }))
+      mm.add('(max-width: 479px)', () => runPlates({ endPct: 280, fullExit: true }))
 
       return () => mm.revert()
     },
@@ -202,7 +210,7 @@ export default function FourPlates({
     <section
       id="systems"
       ref={root}
-      className="pointer-events-none relative z-[45] -mt-[100svh] text-[#16110e]"
+      className={`pointer-events-none relative z-[45] text-[#16110e] ${overlap ? '-mt-[100svh]' : ''}`}
     >
       <div data-plates-pin className="pointer-events-none relative h-svh overflow-hidden">
         <div data-plates-next className="invisible absolute inset-0 z-0 bg-ratio-paper" aria-hidden="true">
@@ -237,7 +245,7 @@ export default function FourPlates({
         <div data-drawer className="pointer-events-auto absolute inset-0 z-10 flex flex-col bg-ratio-field text-[#16110e] will-change-transform">
           <h2
             data-plates-title
-            className="relative shrink-0 px-5 pt-16 font-syne text-[clamp(2.1rem,6.4vw,5.8rem)] font-semibold leading-[0.86] tracking-[-0.05em] uppercase md:px-8 md:pt-20"
+            className="relative shrink-0 px-4 pt-12 font-syne text-[clamp(1.85rem,11vw,5.8rem)] font-semibold leading-[0.86] tracking-[-0.05em] uppercase min-[480px]:px-5 min-[480px]:pt-16 md:px-8 md:pt-20"
           >
             <span className="relative inline-block">
               {eyebrow}
@@ -257,7 +265,7 @@ export default function FourPlates({
                 <div className="min-h-0 flex-1" />
                 <div
                   data-plate-foot
-                  className="flex items-end justify-between px-3 py-4 text-[11px] tracking-[0.08em] uppercase md:px-4"
+                  className="flex items-end justify-between gap-1 px-1.5 py-3 text-[9px] tracking-[0.06em] uppercase min-[480px]:px-3 min-[480px]:py-4 min-[480px]:text-[11px] min-[480px]:tracking-[0.08em] md:px-4"
                 >
                   <span className="flex items-center gap-2">
                     <span aria-hidden="true" className="size-2.5 bg-current" />
@@ -275,11 +283,9 @@ export default function FourPlates({
                   <span
                     key={`sw-${plate.index}`}
                     data-plate-swatch
-                    className="absolute top-1/2 aspect-square w-[10.5%] will-change-transform"
+                    className="absolute top-[40%] aspect-square w-[22%] -translate-x-1/2 -translate-y-1/2 will-change-transform min-[480px]:top-1/2 min-[480px]:w-[14%] md:w-[10.5%]"
                     style={{
                       left: `${(i + 0.5) * 25}%`,
-                      marginLeft: '-5.25%',
-                      marginTop: '-5.25%',
                       zIndex: 4 - i,
                     }}
                   >

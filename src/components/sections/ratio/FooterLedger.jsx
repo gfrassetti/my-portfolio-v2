@@ -4,12 +4,12 @@ import { tilt } from './rupture'
 import { STACK_LOGOS, StackLogo } from './StackMarks.jsx'
 
 const FRAME_SHAPE = [
-  { width: '9.5vw', height: '52vh' },
-  { width: '13vw', height: '66vh' },
-  { width: '8.2vw', height: '44vh' },
-  { width: '11.4vw', height: '70vh' },
-  { width: '10vw', height: '56vh' },
-  { width: '7.6vw', height: '48vh' },
+  { width: 'min(28vw, 7.5rem)', height: '42vh' },
+  { width: 'min(34vw, 9rem)', height: '52vh' },
+  { width: 'min(24vw, 6.5rem)', height: '38vh' },
+  { width: 'min(30vw, 8rem)', height: '56vh' },
+  { width: 'min(28vw, 7.5rem)', height: '46vh' },
+  { width: 'min(22vw, 6rem)', height: '40vh' },
 ]
 
 /**
@@ -111,9 +111,9 @@ export default function FooterLedger({
   return (
     <footer ref={root} id={anchor} className="relative z-0 bg-ratio-paper text-ratio-ink">
       <div data-ledger-pin className="relative h-svh overflow-hidden">
-        <header className="pointer-events-none absolute inset-x-0 top-12 z-20 flex items-start justify-between gap-6 px-5 pt-5 md:px-8 md:pt-6">
-          <div>
-            <h2 className="font-brico text-[clamp(2.8rem,6.4vw,7.5rem)] font-medium leading-[0.8] tracking-[-0.05em] whitespace-nowrap uppercase [word-break:keep-all]">
+        <header className="pointer-events-none absolute inset-x-0 top-10 z-20 flex items-start justify-between gap-4 px-4 pt-4 min-[480px]:top-12 min-[480px]:gap-6 min-[480px]:px-5 min-[480px]:pt-5 md:px-8 md:pt-6">
+          <div className="min-w-0">
+            <h2 className="font-brico text-[clamp(1.55rem,9vw,7.5rem)] font-medium leading-[0.85] tracking-[-0.05em] uppercase [overflow-wrap:anywhere] min-[480px]:whitespace-nowrap min-[480px]:[word-break:keep-all]">
               {String(title).replace(/ /g, '\u00A0')}
             </h2>
             <p className="mt-6">

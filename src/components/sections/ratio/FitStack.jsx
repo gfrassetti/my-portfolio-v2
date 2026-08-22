@@ -4,9 +4,39 @@ import { tilt } from './rupture'
 import { RuptureOn, RuptureScript, RupturePlay, RuptureInline } from './RuptureOn'
 
 const BANDS = [
-  { id: 'white', titleKey: 'phrase', color: '#16110e', gap: 1, seed: 2, words: ['GSAP', 'LENIS', 'REACT', 'TAILWIND'] },
-  { id: 'gray', titleKey: 'breakLine', color: '#656565', gap: 3, seed: 6, words: ['NODE', 'LARAVEL', 'DJANGO', 'EXPRESS'] },
-  { id: 'darkest', titleKey: 'worthLine', color: '#d4cfc6', gap: 2, seed: 10, words: ['CRO', 'A/B', 'GTM', 'WP'] },
+  {
+    id: 'white',
+    titleKey: 'phrase',
+    blurbKey: 'frontBlurb',
+    color: '#16110e',
+    ink: '#ebe6dc',
+    gap: 1,
+    seed: 2,
+    words: ['GSAP', 'LENIS', 'REACT', 'TAILWIND'],
+    caps: ['motion', 'scroll', 'ui', 'css'],
+  },
+  {
+    id: 'gray',
+    titleKey: 'breakLine',
+    blurbKey: 'backBlurb',
+    color: '#2e2924',
+    ink: '#ebe6dc',
+    gap: 3,
+    seed: 6,
+    words: ['NODE', 'LARAVEL', 'DJANGO', 'EXPRESS'],
+    caps: ['runtime', 'php', 'python', 'http'],
+  },
+  {
+    id: 'darkest',
+    titleKey: 'worthLine',
+    blurbKey: 'growthBlurb',
+    color: '#111110',
+    ink: '#ebe6dc',
+    gap: 2,
+    seed: 10,
+    words: ['CRO', 'A/B', 'GTM', 'WP'],
+    caps: ['convert', 'test', 'track', 'cms'],
+  },
 ]
 
 function Marked({ text, mark }) {
@@ -177,6 +207,9 @@ export default function FitStack({
   breakLine = 'THE FOLD',
   rulesLine = 'THE RATIO',
   worthLine = '(BASELINE)',
+  frontBlurb = 'Interfaces that move with intention — scroll, state, and polish.',
+  backBlurb = 'APIs and services that ship features, not just schemas.',
+  growthBlurb = 'Experiments, tags, and CMS when product has to convert.',
   closer = 'elFrontIdeal',
   closerPlay = 'play',
   closerArg = 'seSiente',
@@ -192,6 +225,7 @@ export default function FitStack({
 }) {
   const root = useRef(null)
   const titles = { phrase, breakLine, rulesLine, worthLine }
+  const blurbs = { frontBlurb, backBlurb, growthBlurb }
   const call = `${closerPlay}(${closer})`
   const hint = closerHint.replaceAll('{call}', call)
 
@@ -376,17 +410,32 @@ export default function FitStack({
     },
     {
       scope: root,
-      dependencies: [phrase, breakLine, rulesLine, worthLine, closer, closerPlay, closerArg, closerProp, closerComment, closerHint, cubes],
+      dependencies: [
+        phrase,
+        breakLine,
+        rulesLine,
+        worthLine,
+        frontBlurb,
+        backBlurb,
+        growthBlurb,
+        closer,
+        closerPlay,
+        closerArg,
+        closerProp,
+        closerComment,
+        closerHint,
+        cubes,
+      ],
     },
   )
 
   return (
     <section ref={root} id={anchor} className="relative z-20 bg-ratio-field text-ratio-paper">
-      <div className="relative min-h-[140svh] bg-ratio-paper px-5 pt-16 pb-24 text-ratio-ink md:px-10 md:pt-20 md:pb-32 lg:px-14">
+      <div className="relative min-h-[88svh] bg-ratio-paper px-4 pt-12 pb-14 text-ratio-ink min-[480px]:min-h-[120svh] min-[480px]:px-5 min-[480px]:pt-16 min-[480px]:pb-24 md:min-h-[140svh] md:px-10 md:pt-20 md:pb-32 lg:px-14">
         <p className="font-brico text-[13px] tracking-[0.02em] text-ratio-ink/45">{noteLabel}</p>
         <p
           data-notes-copy
-          className="mt-8 max-w-[18ch] font-brico text-[clamp(2.4rem,6.5vw,6rem)] font-medium leading-[1.05] tracking-[-0.03em] md:mt-12 [&_em]:font-display [&_em]:text-[0.92em] [&_em]:font-normal [&_em]:italic"
+          className="mt-6 max-w-[18ch] font-brico text-[clamp(1.65rem,8.2vw,6rem)] font-medium leading-[1.05] tracking-[-0.03em] min-[480px]:mt-8 md:mt-12 [&_em]:font-display [&_em]:text-[0.92em] [&_em]:font-normal [&_em]:italic"
         >
           (1) <Marked text={note1} mark={note1Mark} /> (2) <Marked text={note2} mark={note2Mark} /> (3){' '}
           <Marked text={note3} mark={note3Mark} />
@@ -395,74 +444,72 @@ export default function FitStack({
 
       {BANDS.map((band, bi) => {
         const words = cubes?.[bi] ?? band.words
+        const caps = band.caps
         return (
-        <article
-          key={band.id}
-          data-fit-band={band.id}
-          className="relative min-h-svh overflow-hidden bg-ratio-field"
-        >
-          <h2 className="pointer-events-none absolute top-[18%] left-0 z-10 max-w-[16ch] px-5 font-syne text-[clamp(2.2rem,7vw,6.2rem)] font-semibold leading-[0.84] tracking-[-0.05em] uppercase md:px-10">
-            <span className="relative inline-block">
-              {titles[band.titleKey]}
-              <RuptureScript>{titles[band.titleKey]}</RuptureScript>
-            </span>
-          </h2>
+          <article
+            key={band.id}
+            data-fit-band={band.id}
+            className="relative flex min-h-[72svh] flex-col overflow-hidden bg-ratio-field text-ratio-ink min-[480px]:min-h-[78svh] md:min-h-svh"
+          >
+            <div className="relative z-10 px-4 pt-10 min-[480px]:px-5 min-[480px]:pt-14 md:px-10 md:pt-20">
+              <p className="font-brico text-[11px] tracking-[0.2em] uppercase text-ratio-ink/45">
+                0{bi + 1} / STACK
+              </p>
+              <h2 className="mt-3 max-w-[14ch] font-syne text-[clamp(2rem,11vw,6.2rem)] font-semibold leading-[0.84] tracking-[-0.05em] uppercase">
+                <span className="relative inline-block">
+                  {titles[band.titleKey]}
+                  <RuptureScript>{titles[band.titleKey]}</RuptureScript>
+                </span>
+              </h2>
+              <p className="mt-5 max-w-[32ch] font-brico text-[13px] leading-[1.45] tracking-[0.02em] text-ratio-ink/55 md:mt-6 md:text-[15px]">
+                {blurbs[band.blurbKey]}
+              </p>
+            </div>
 
-          <div data-fit-grid className="absolute inset-x-0 bottom-0 grid grid-cols-4 gap-px px-px">
-            {[0, 1, 2, 3].map((col) => {
-              const isFall = col === band.gap
-              return (
-                <div
-                  key={col}
-                  className={`relative aspect-square ${isFall ? 'overflow-visible' : 'overflow-hidden'}`}
-                >
-                  {isFall ? (
-                    <span
-                      data-fit-fall
-                      data-ratio-block
-                      className="absolute inset-0 overflow-visible"
-                      style={tilt(band.seed + col, 1.1)}
+            <div className="relative z-10 mt-auto">
+              <div className="flex items-center justify-between gap-3 border-y border-ratio-ink/15 px-4 py-2 min-[480px]:px-5 md:px-10">
+                <span className="font-brico text-[10px] tracking-[0.18em] uppercase text-ratio-ink/40">
+                  tools
+                </span>
+                <span aria-hidden="true" className="size-1.5 bg-[#ffb800]" />
+              </div>
+              <div data-fit-grid className="grid grid-cols-4 gap-px bg-ratio-ink/15">
+                {[0, 1, 2, 3].map((col) => {
+                  const isFall = col === band.gap
+                  return (
+                    <div
+                      key={col}
+                      className={`relative aspect-square ${isFall ? 'overflow-visible' : 'overflow-hidden'}`}
                     >
                       <span
-                        data-rupture-off
-                        className="absolute inset-0 grid place-items-center"
-                        style={{ backgroundColor: band.color }}
+                        {...(isFall ? { 'data-fit-fall': true } : {})}
+                        data-ratio-block
+                        className="absolute inset-0 overflow-visible"
+                        style={tilt(band.seed + col, 1.1)}
                       >
                         <span
-                          className="px-1.5 text-center font-syne text-[clamp(0.62rem,1.45vw,0.95rem)] font-semibold tracking-[0.08em] uppercase"
-                          style={{ color: band.id === 'white' || band.id === 'gray' ? '#ebe6dc' : '#16110e' }}
+                          data-rupture-off
+                          className="absolute inset-0 flex flex-col items-center justify-center gap-1.5 border border-ratio-ink/20 px-1"
+                          style={{ backgroundColor: band.color }}
                         >
-                          {words[col]}
+                          <span
+                            className="font-syne text-[clamp(0.85rem,3.6vw,1.15rem)] font-semibold tracking-[0.06em] uppercase"
+                            style={{ color: band.ink }}
+                          >
+                            {words[col]}
+                          </span>
+                          <span className="font-brico text-[9px] tracking-[0.14em] uppercase text-ratio-ink/40">
+                            {caps[col]}
+                          </span>
                         </span>
+                        <RuptureOn index={band.seed + col} />
                       </span>
-                      <RuptureOn index={band.seed + col} />
-                    </span>
-                  ) : (
-                    <span
-                      data-ratio-block
-                      className="absolute inset-0 overflow-visible"
-                      style={tilt(band.seed + col, 1.1)}
-                    >
-                      <span
-                        data-rupture-off
-                        className="absolute inset-0 grid place-items-center"
-                        style={{ backgroundColor: band.color }}
-                      >
-                        <span
-                          className="px-1.5 text-center font-syne text-[clamp(0.62rem,1.45vw,0.95rem)] font-semibold tracking-[0.08em] uppercase"
-                          style={{ color: band.id === 'white' || band.id === 'gray' ? '#ebe6dc' : '#16110e' }}
-                        >
-                          {words[col]}
-                        </span>
-                      </span>
-                      <RuptureOn index={band.seed + col} />
-                    </span>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </article>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </article>
         )
       })}
 
