@@ -111,10 +111,10 @@ export default function FooterLedger({
   return (
     <footer ref={root} id={anchor} className="relative z-0 bg-ratio-paper text-ratio-ink">
       <div data-ledger-pin className="relative h-svh overflow-hidden">
-        <header className="pointer-events-none absolute inset-x-0 top-10 z-20 flex items-start justify-between gap-4 px-4 pt-4 min-[480px]:top-12 min-[480px]:gap-6 min-[480px]:px-5 min-[480px]:pt-5 md:px-8 md:pt-6">
+        <header className="pointer-events-none absolute inset-x-0 top-10 z-20 flex flex-col gap-3 px-4 pt-4 min-[480px]:top-12 min-[480px]:flex-row min-[480px]:items-start min-[480px]:justify-between min-[480px]:gap-6 min-[480px]:px-5 min-[480px]:pt-5 md:px-8 md:pt-6">
           <div className="min-w-0">
-            <h2 className="font-brico text-[clamp(1.55rem,9vw,7.5rem)] font-medium leading-[0.85] tracking-[-0.05em] uppercase [overflow-wrap:anywhere] min-[480px]:whitespace-nowrap min-[480px]:[word-break:keep-all]">
-              {String(title).replace(/ /g, '\u00A0')}
+            <h2 className="whitespace-nowrap font-brico text-[clamp(1.1rem,calc((100vw-2.5rem)/12.4),7.5rem)] font-medium leading-none tracking-[-0.05em] uppercase">
+              {title}
             </h2>
             <p className="mt-6">
               <span className="flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase">
@@ -126,7 +126,7 @@ export default function FooterLedger({
               ) : null}
             </p>
           </div>
-          <p className="shrink-0 pt-1 text-[11px] tracking-[0.16em] uppercase">{hint}</p>
+          <p className="shrink-0 text-[11px] tracking-[0.16em] uppercase min-[480px]:pt-1">{hint}</p>
         </header>
 
         <div

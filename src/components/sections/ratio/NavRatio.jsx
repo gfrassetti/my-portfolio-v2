@@ -72,26 +72,6 @@ export default function NavRatio({
       let players = []
       let st
 
-      const parkDock = () => {
-        const { from, shell: box } = layout()
-        gsap.set(shell, { ...box, autoAlpha: 1 })
-        pieceEls.forEach((el, i) => {
-          el.style.removeProperty('offset-path')
-          el.style.removeProperty('offset-distance')
-          el.style.removeProperty('offset-rotate')
-          el.style.transform = ''
-          gsap.set(el, {
-            position: 'fixed',
-            top: from[i].top,
-            left: from[i].left,
-            x: 0,
-            y: 0,
-            autoAlpha: 1,
-          })
-        })
-        slashes.forEach((el) => gsap.set(el, { opacity: 0 }))
-      }
-
       const mountRails = () => {
         players = []
         const s = magScale(window.innerWidth)
@@ -139,10 +119,6 @@ export default function NavRatio({
 
       const bind = () => {
         st?.kill()
-        if (isDock()) {
-          parkDock()
-          return
-        }
         mountRails()
         const drawer = document.querySelector('[data-drawer]')
         if (!drawer) {
@@ -152,20 +128,15 @@ export default function NavRatio({
         const trigger = drawer.closest('[data-plates-pin]') || drawer
         st = ScrollTrigger.create({
           trigger,
-          start: 'top 94%',
-          end: 'top -18%',
+          start: 'top 92%',
+          end: 'top -8%',
           scrub: reduced ? true : 0.6,
           invalidateOnRefresh: true,
           onRefresh(self) {
-            if (isDock()) {
-              parkDock()
-              return
-            }
             mountRails()
             seekAll(self.progress)
           },
           onUpdate(self) {
-            if (isDock()) return
             seekAll(self.progress)
           },
         })
@@ -196,11 +167,11 @@ export default function NavRatio({
         data-ratio-nav
         className="fixed inset-x-0 top-0 z-50 border-b border-ratio-ink bg-ratio-paper text-ratio-ink"
       >
-        <div className="flex h-11 items-center gap-3 px-3 text-[10px] tracking-[0.18em] uppercase md:h-12 md:px-5 md:text-[11px]">
+        <div className="flex h-11 items-center gap-2 overflow-hidden px-3 text-[10px] tracking-[0.18em] uppercase md:h-12 md:gap-3 md:px-5 md:text-[11px]">
           <a href="#top" className="max-w-[42vw] shrink-0 truncate font-medium min-[480px]:max-w-none">
             {brand}
           </a>
-          <div data-nav-slot className="hidden min-h-0 min-w-0 flex-1 items-center justify-center md:flex">
+          <div data-nav-slot className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
             {items.map((item, i) => (
               <span key={item.label} className="flex items-center">
                 {i > 0 ? (

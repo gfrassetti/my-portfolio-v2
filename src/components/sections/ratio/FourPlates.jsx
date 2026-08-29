@@ -107,7 +107,7 @@ export default function FourPlates({
       const next = pin.querySelector('[data-plates-next]')
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-      gsap.set(drawer, { yPercent: reduced ? 0 : 100 })
+      gsap.set(drawer, { yPercent: reduced || !overlap ? 0 : 100 })
       gsap.set(fills, { transformOrigin: '50% 50%', scale: 1, rotation: 0, autoAlpha: 1 })
       if (veil) gsap.set(veil, { autoAlpha: 0 })
       if (next) gsap.set(next, { autoAlpha: 0 })
@@ -203,7 +203,7 @@ export default function FourPlates({
 
       return () => mm.revert()
     },
-    { scope: root, dependencies: [eyebrow, plate1Title, plate2Title, plate3Title, plate4Title, platesText, nextImg] },
+    { scope: root, dependencies: [eyebrow, plate1Title, plate2Title, plate3Title, plate4Title, platesText, nextImg, overlap] },
   )
 
   return (

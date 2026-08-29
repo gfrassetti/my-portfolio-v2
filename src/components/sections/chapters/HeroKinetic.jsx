@@ -61,44 +61,35 @@ export default function HeroKinetic({
         scrollTrigger: {
           trigger: root.current,
           start: 'top top',
-          end: '+=220%',
+          end: '+=55%',
           pin: pin,
-          scrub: 0.65,
+          scrub: 0.45,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       })
 
-      // 0 — hold brand
-      tl.to({}, { duration: 0.35 }, 0)
+      tl.to(brand, { scale: 0.78, yPercent: -6, duration: 0.28 }, 0)
+      tl.to(lines[0], { autoAlpha: 1, duration: 0.06 }, 0.02)
+      tl.to(splits[0].chars, { yPercent: 0, duration: 0.28, stagger: 0.018 }, 0.02)
+      tl.to(marks[0], { scaleX: 1, duration: 0.2 }, 0.1)
 
-      // 1 — HOLA rises, brand eases back
-      tl.to(brand, { scale: 0.72, yPercent: -8, duration: 0.55 }, 0.35)
-      tl.to(lines[0], { autoAlpha: 1, duration: 0.08 }, 0.4)
-      tl.to(splits[0].chars, { yPercent: 0, duration: 0.55, stagger: 0.02 }, 0.4)
-      tl.to(marks[0], { scaleX: 1, duration: 0.4 }, 0.55)
+      tl.to(splits[0].chars, { yPercent: -110, duration: 0.2, stagger: 0.01 }, 0.38)
+      tl.to(lines[0], { autoAlpha: 0, duration: 0.08 }, 0.52)
+      tl.to(lines[1], { autoAlpha: 1, duration: 0.06 }, 0.42)
+      tl.to(splits[1].chars, { yPercent: 0, duration: 0.24, stagger: 0.018 }, 0.42)
+      tl.to(marks[1], { scaleX: 1, duration: 0.18 }, 0.5)
 
-      // 2 — SOY
-      tl.to(splits[0].chars, { yPercent: -110, duration: 0.4, stagger: 0.012 }, 1.05)
-      tl.to(lines[0], { autoAlpha: 0, duration: 0.12 }, 1.35)
-      tl.to(lines[1], { autoAlpha: 1, duration: 0.08 }, 1.2)
-      tl.to(splits[1].chars, { yPercent: 0, duration: 0.5, stagger: 0.022 }, 1.2)
-      tl.to(marks[1], { scaleX: 1, duration: 0.35 }, 1.35)
-
-      // 3 — WEB + DEVELOPER stack under GUIDO
-      tl.to(splits[1].chars, { yPercent: -110, duration: 0.35, stagger: 0.01 }, 1.85)
-      tl.to(lines[1], { autoAlpha: 0, duration: 0.1 }, 2.1)
-      tl.to(brand, { scale: 1, yPercent: -18, duration: 0.55 }, 1.9)
-      tl.to(lines[2], { autoAlpha: 1, duration: 0.08 }, 2.0)
-      tl.to(splits[2].chars, { yPercent: 0, duration: 0.55, stagger: 0.018 }, 2.0)
-      tl.to(lines[3], { autoAlpha: 1, duration: 0.08 }, 2.25)
-      tl.to(splits[3].chars, { yPercent: 0, duration: 0.55, stagger: 0.016 }, 2.25)
-      tl.to(marks[2], { scaleX: 1, duration: 0.4 }, 2.35)
-      tl.to(rail, { autoAlpha: 1, duration: 0.3 }, 2.4)
-      tl.to(hintEl, { autoAlpha: 0, duration: 0.25 }, 2.5)
-
-      // 4 — exit drift
-      tl.to(pin, { opacity: 0.2, yPercent: -6, duration: 0.7 }, 3.0)
+      tl.to(splits[1].chars, { yPercent: -110, duration: 0.18, stagger: 0.008 }, 0.7)
+      tl.to(lines[1], { autoAlpha: 0, duration: 0.08 }, 0.84)
+      tl.to(brand, { scale: 1, yPercent: -12, duration: 0.28 }, 0.72)
+      tl.to(lines[2], { autoAlpha: 1, duration: 0.06 }, 0.76)
+      tl.to(splits[2].chars, { yPercent: 0, duration: 0.26, stagger: 0.014 }, 0.76)
+      tl.to(lines[3], { autoAlpha: 1, duration: 0.06 }, 0.86)
+      tl.to(splits[3].chars, { yPercent: 0, duration: 0.26, stagger: 0.012 }, 0.86)
+      tl.to(marks[2], { scaleX: 1, duration: 0.2 }, 0.9)
+      tl.to(rail, { autoAlpha: 1, duration: 0.16 }, 0.92)
+      tl.to(hintEl, { autoAlpha: 0, duration: 0.12 }, 0.96)
     },
     { scope: root, dependencies: [word1, word2, word3, word4, word5] },
   )

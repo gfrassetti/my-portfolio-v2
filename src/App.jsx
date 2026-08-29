@@ -1,7 +1,9 @@
 import SmoothScrollProvider from './components/SmoothScrollProvider.jsx'
 import NavRatio from './components/sections/ratio/NavRatio.jsx'
 import HeroTools from './components/sections/ratio/HeroTools.jsx'
-import HeroKinetic from './components/sections/chapters/HeroKinetic.jsx'
+import HeroCube from './components/sections/chapters/HeroCube.jsx'
+import WorkChapters from './components/sections/chapters/WorkChapters.jsx'
+import NotesChapters from './components/sections/chapters/NotesChapters.jsx'
 import FourPlates from './components/sections/ratio/FourPlates.jsx'
 import SplitStudy from './components/sections/ratio/SplitStudy.jsx'
 import FitStack from './components/sections/ratio/FitStack.jsx'
@@ -18,6 +20,98 @@ import { useIsMobile } from './lib/useIsMobile.js'
 export default function App() {
   const { locale, setLocale, t } = useI18n()
   const isMobile = useIsMobile()
+  const cases = [
+    {
+      kicker: t.laseraway.kicker,
+      meta: t.laseraway.meta,
+      index: '01',
+      specLabel: t.laseraway.specLabel,
+      specValue: t.laseraway.specValue,
+      spec2Label: t.laseraway.spec2Label,
+      spec2Value: t.laseraway.spec2Value,
+      spec3Label: t.laseraway.spec3Label,
+      spec3Value: t.laseraway.spec3Value,
+      spec4Label: t.laseraway.spec4Label,
+      spec4Value: t.laseraway.spec4Value,
+      quote: t.laseraway.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.laseraway.role,
+      img: laserawayShot,
+      portrait: laserawayMark,
+    },
+    {
+      kicker: t.clashvault.kicker,
+      meta: t.clashvault.meta,
+      index: '02',
+      specLabel: t.clashvault.specLabel,
+      specValue: t.clashvault.specValue,
+      spec2Label: t.clashvault.spec2Label,
+      spec2Value: t.clashvault.spec2Value,
+      spec3Label: t.clashvault.spec3Label,
+      spec3Value: t.clashvault.spec3Value,
+      spec4Label: t.clashvault.spec4Label,
+      spec4Value: t.clashvault.spec4Value,
+      quote: t.clashvault.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.clashvault.role,
+      img: clashvaultShot,
+    },
+    {
+      kicker: t.mkmusic.kicker,
+      meta: t.mkmusic.meta,
+      index: '03',
+      specLabel: t.mkmusic.specLabel,
+      specValue: t.mkmusic.specValue,
+      spec2Label: t.mkmusic.spec2Label,
+      spec2Value: t.mkmusic.spec2Value,
+      spec3Label: t.mkmusic.spec3Label,
+      spec3Value: t.mkmusic.spec3Value,
+      spec4Label: t.mkmusic.spec4Label,
+      spec4Value: t.mkmusic.spec4Value,
+      quote: t.mkmusic.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.mkmusic.role,
+      img: mkmusicMark,
+      contain: true,
+    },
+    {
+      kicker: t.encuentro.kicker,
+      meta: t.encuentro.meta,
+      index: '04',
+      specLabel: t.encuentro.specLabel,
+      specValue: t.encuentro.specValue,
+      spec2Label: t.encuentro.spec2Label,
+      spec2Value: t.encuentro.spec2Value,
+      spec3Label: t.encuentro.spec3Label,
+      spec3Value: t.encuentro.spec3Value,
+      spec4Label: t.encuentro.spec4Label,
+      spec4Value: t.encuentro.spec4Value,
+      quote: t.encuentro.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.encuentro.role,
+      img: encuentroShot,
+    },
+  ]
+  const noteChapters = [
+    {
+      kicker: 'motion',
+      title: t.notes.phrase,
+      blurb: t.notes.frontBlurb,
+      tools: t.notes.cubes[0],
+    },
+    {
+      kicker: 'server',
+      title: t.notes.breakLine,
+      blurb: t.notes.backBlurb,
+      tools: t.notes.cubes[1],
+    },
+    {
+      kicker: 'growth',
+      title: t.notes.worthLine,
+      blurb: t.notes.growthBlurb,
+      tools: t.notes.cubes[2],
+    },
+  ]
 
   return (
     <SmoothScrollProvider>
@@ -37,18 +131,15 @@ export default function App() {
         />
 
         <main>
-          <div id="intro">
+          <div id="intro" className={isMobile ? 'h-svh overflow-hidden' : undefined}>
             {isMobile ? (
-              <HeroKinetic
-                key={`kinetic-${locale}`}
-                word1={t.hero.word1}
-                word2={t.hero.word2}
-                word3={t.hero.word3}
-                word4={t.hero.word4}
-                word5={t.hero.word5}
-                kicker={t.hero.note}
+              <HeroCube
+                key={`cube-${locale}`}
+                line1={t.hero.kineticLine1}
+                line2={t.hero.kineticLine2}
+                role={t.hero.roleLine}
+                kicker={t.hero.pitch}
                 meta={t.hero.kineticMeta}
-                hint={t.hero.kineticHint}
               />
             ) : (
               <HeroTools
@@ -72,109 +163,46 @@ export default function App() {
             nextImg={platesThrough}
             overlap={!isMobile}
           />
-          <SplitStudy
-            key={`study-${locale}`}
-            anchor="study"
-            cases={[
-              {
-                kicker: t.laseraway.kicker,
-                meta: t.laseraway.meta,
-                index: '01',
-                specLabel: t.laseraway.specLabel,
-                specValue: t.laseraway.specValue,
-                spec2Label: t.laseraway.spec2Label,
-                spec2Value: t.laseraway.spec2Value,
-                spec3Label: t.laseraway.spec3Label,
-                spec3Value: t.laseraway.spec3Value,
-                spec4Label: t.laseraway.spec4Label,
-                spec4Value: t.laseraway.spec4Value,
-                quote: t.laseraway.quote,
-                quoteBy: 'Guido Frassetti',
-                quoteRole: t.laseraway.role,
-                img: laserawayShot,
-                portrait: laserawayMark,
-              },
-              {
-                kicker: t.clashvault.kicker,
-                meta: t.clashvault.meta,
-                index: '02',
-                specLabel: t.clashvault.specLabel,
-                specValue: t.clashvault.specValue,
-                spec2Label: t.clashvault.spec2Label,
-                spec2Value: t.clashvault.spec2Value,
-                spec3Label: t.clashvault.spec3Label,
-                spec3Value: t.clashvault.spec3Value,
-                spec4Label: t.clashvault.spec4Label,
-                spec4Value: t.clashvault.spec4Value,
-                quote: t.clashvault.quote,
-                quoteBy: 'Guido Frassetti',
-                quoteRole: t.clashvault.role,
-                img: clashvaultShot,
-              },
-              {
-                kicker: t.mkmusic.kicker,
-                meta: t.mkmusic.meta,
-                index: '03',
-                specLabel: t.mkmusic.specLabel,
-                specValue: t.mkmusic.specValue,
-                spec2Label: t.mkmusic.spec2Label,
-                spec2Value: t.mkmusic.spec2Value,
-                spec3Label: t.mkmusic.spec3Label,
-                spec3Value: t.mkmusic.spec3Value,
-                spec4Label: t.mkmusic.spec4Label,
-                spec4Value: t.mkmusic.spec4Value,
-                quote: t.mkmusic.quote,
-                quoteBy: 'Guido Frassetti',
-                quoteRole: t.mkmusic.role,
-                img: mkmusicMark,
-                contain: true,
-              },
-              {
-                kicker: t.encuentro.kicker,
-                meta: t.encuentro.meta,
-                index: '04',
-                specLabel: t.encuentro.specLabel,
-                specValue: t.encuentro.specValue,
-                spec2Label: t.encuentro.spec2Label,
-                spec2Value: t.encuentro.spec2Value,
-                spec3Label: t.encuentro.spec3Label,
-                spec3Value: t.encuentro.spec3Value,
-                spec4Label: t.encuentro.spec4Label,
-                spec4Value: t.encuentro.spec4Value,
-                quote: t.encuentro.quote,
-                quoteBy: 'Guido Frassetti',
-                quoteRole: t.encuentro.role,
-                img: encuentroShot,
-              },
-            ]}
-          />
-          <FitStack
-            key={`notes-${locale}`}
-            noteLabel={t.notes.label}
-            note1={t.notes.one}
-            note2={t.notes.two}
-            note2Mark={t.notes.twoMark}
-            note3={t.notes.three}
-            note3Mark={t.notes.threeMark}
-            phrase={t.notes.phrase}
-            breakLine={t.notes.breakLine}
-            rulesLine={t.notes.rulesLine}
-            worthLine={t.notes.worthLine}
-            frontBlurb={t.notes.frontBlurb}
-            backBlurb={t.notes.backBlurb}
-            growthBlurb={t.notes.growthBlurb}
-            closer={t.notes.closer}
-            closerPlay={t.notes.closerPlay}
-            closerArg={t.notes.closerArg}
-            closerProp={t.notes.closerProp}
-            closerComment={t.notes.closerComment}
-            closerHint={t.notes.closerHint}
-            playLabel={t.notes.playLabel}
-            pauseLabel={t.notes.pauseLabel}
-            cubes={t.notes.cubes}
-            brand="GUIDO"
-            studio="FRASSETTI — 2026"
-          />
+          {isMobile ? (
+            <WorkChapters key={`work-${locale}`} cases={cases} anchor="study" />
+          ) : (
+            <SplitStudy key={`study-${locale}`} anchor="study" cases={cases} />
+          )}
+          {isMobile ? (
+            <NotesChapters
+              key={`notes-${locale}`}
+              note1={t.notes.one}
+              chapters={noteChapters}
+            />
+          ) : (
+            <FitStack
+              key={`notes-${locale}`}
+              noteLabel={t.notes.label}
+              note1={t.notes.one}
+              note2={t.notes.two}
+              note2Mark={t.notes.twoMark}
+              note3={t.notes.three}
+              note3Mark={t.notes.threeMark}
+              phrase={t.notes.phrase}
+              breakLine={t.notes.breakLine}
+              rulesLine={t.notes.rulesLine}
+              worthLine={t.notes.worthLine}
+              frontBlurb={t.notes.frontBlurb}
+              backBlurb={t.notes.backBlurb}
+              growthBlurb={t.notes.growthBlurb}
+              closer={t.notes.closer}
+              closerPlay={t.notes.closerPlay}
+              closerArg={t.notes.closerArg}
+              closerProp={t.notes.closerProp}
+              closerComment={t.notes.closerComment}
+              closerHint={t.notes.closerHint}
+              playLabel={t.notes.playLabel}
+              pauseLabel={t.notes.pauseLabel}
+              cubes={t.notes.cubes}
+              brand="GUIDO"
+              studio="FRASSETTI — 2026"
+            />
+          )}
         </main>
 
         <FooterLedger

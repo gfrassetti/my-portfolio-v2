@@ -1,0 +1,97 @@
+/**
+ * Helvetica Now — Display for headlines, Text for UI/body.
+ * Reads the licensed desktop install. To ship webfonts, put .woff2 in
+ * /public/fonts/ and add url("/fonts/…") sources here.
+ */
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Helvetica Now Display"),
+    local("Helvetica Now Display Regular"),
+    local("HelveticaNowDisplay-Regular");
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("Helvetica Now Display Medium"),
+    local("HelveticaNowDisplay-Medium");
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Helvetica Now Display Bold"),
+    local("HelveticaNowDisplay-Bold");
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Helvetica Now Display Bold"),
+    local("HelveticaNowDisplay-Bold");
+}
+
+@font-face {
+  font-family: "Helvetica Now Display";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Helvetica Now Display Italic"),
+    local("HelveticaNowDisplay-Italic");
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("Helvetica Now Text"),
+    local("Helvetica Now Text Regular"),
+    local("HelveticaNowText-Regular");
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("Helvetica Now Text Medium"),
+    local("HelveticaNowText-Medium");
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Helvetica Now Text Bold"),
+    local("HelveticaNowText-Bold");
+}
+
+@font-face {
+  font-family: "Helvetica Now Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Helvetica Now Text Bold"),
+    local("HelveticaNowText-Bold");
+}

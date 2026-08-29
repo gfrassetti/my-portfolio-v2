@@ -206,7 +206,7 @@ function slotAt(list, i) {
 
 function inkWidth(el, ch, px) {
   const ctx = document.createElement('canvas').getContext('2d')
-  const family = el ? getComputedStyle(el).fontFamily : 'Bricolage Grotesque, sans-serif'
+  const family = el ? getComputedStyle(el).fontFamily : '"Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif'
   ctx.font = `400 ${px}px ${family}`
   const m = ctx.measureText((ch || 'M').toUpperCase())
   const ink = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || 0)
@@ -225,6 +225,7 @@ function paintGlyph(el, s) {
     display: 'block',
     width: 'max-content',
     height: `${0.72 * px}px`,
+    fontFamily: '"Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif',
     fontSize: `${px}px`,
     fontWeight: '400',
     fontStyle: 'normal',
