@@ -125,13 +125,13 @@ export default function HeroCube({
         <div className="flex min-h-0 flex-1 flex-col justify-end pb-4">
           <p
             data-cube-brand
-            className="select-none font-brico text-[clamp(3.2rem,18vw,5.4rem)] leading-[0.86] font-semibold tracking-[-0.05em]"
+            className="select-none whitespace-nowrap font-brico text-[clamp(2.75rem,calc((100vw-2.5rem)/6),5.4rem)] leading-[0.86] font-semibold tracking-[-0.05em]"
           >
             {line1}
           </p>
           <p
             data-cube-brand
-            className="select-none font-brico text-[clamp(3.2rem,18vw,5.4rem)] leading-[0.86] font-semibold tracking-[-0.05em]"
+            className="select-none whitespace-nowrap font-brico text-[clamp(2.75rem,calc((100vw-2.5rem)/6),5.4rem)] leading-[0.86] font-semibold tracking-[-0.05em]"
           >
             {line2}
           </p>

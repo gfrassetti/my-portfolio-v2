@@ -265,10 +265,10 @@ export default function FourPlates({
                 <div className="min-h-0 flex-1" />
                 <div
                   data-plate-foot
-                  className="flex items-end justify-between gap-1 px-1.5 py-3 text-[9px] tracking-[0.06em] uppercase min-[480px]:px-3 min-[480px]:py-4 min-[480px]:text-[11px] min-[480px]:tracking-[0.08em] md:px-4"
+                  className="flex items-end justify-between gap-1 whitespace-nowrap px-1 py-3 text-[8px] tracking-normal uppercase min-[480px]:px-2 min-[480px]:py-4 min-[480px]:text-[10px] min-[480px]:tracking-[0.03em] md:px-3 md:text-[11px] md:tracking-[0.06em]"
                 >
-                  <span className="flex items-center gap-2">
-                    <span aria-hidden="true" className="size-2.5 bg-current" />
+                  <span className="flex min-w-0 items-center gap-1 min-[480px]:gap-1.5 md:gap-2">
+                    <span aria-hidden="true" className="size-1.5 shrink-0 bg-current min-[480px]:size-2 md:size-2.5" />
                     {plate.title}
                   </span>
                   <span>{plate.index}</span>
