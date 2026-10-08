@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { getLenis } from '../../../hooks/useLenis'
 
@@ -104,62 +104,14 @@ function StudyMeta({ kicker, meta, index, total, specs, url, linkLabel, label, n
   )
 }
 
-/**
- * 3D hover: the card leans toward the pointer, the shot slides the other
- * way inside its frame, and a soft glare follows. Fine pointers only.
- */
-function useTilt() {
-  const ref = useRef(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return undefined
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
-    let raf = 0
-    const onMove = (e) => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(() => {
-        const r = el.getBoundingClientRect()
-        const px = (e.clientX - r.left) / r.width - 0.5
-        const py = (e.clientY - r.top) / r.height - 0.5
-        el.dataset.tilting = 'true'
-        el.style.setProperty('--rx', `${(-py * 7).toFixed(2)}deg`)
-        el.style.setProperty('--ry', `${(px * 9).toFixed(2)}deg`)
-        el.style.setProperty('--px', px.toFixed(3))
-        el.style.setProperty('--py', py.toFixed(3))
-        el.style.setProperty('--gx', `${((px + 0.5) * 100).toFixed(1)}%`)
-        el.style.setProperty('--gy', `${((py + 0.5) * 100).toFixed(1)}%`)
-      })
-    }
-    const onLeave = () => {
-      cancelAnimationFrame(raf)
-      delete el.dataset.tilting
-      ;['--rx', '--ry', '--px', '--py'].forEach((k) => el.style.removeProperty(k))
-    }
-    el.addEventListener('pointermove', onMove)
-    el.addEventListener('pointerleave', onLeave)
-    return () => {
-      cancelAnimationFrame(raf)
-      el.removeEventListener('pointermove', onMove)
-      el.removeEventListener('pointerleave', onLeave)
-    }
-  }, [])
-  return ref
-}
-
 const TINT =
-  'grayscale transition-[filter,opacity,translate,scale] duration-700 ease-[var(--ease-out)] group-hover:grayscale-0 group-focus-within:grayscale-0'
+  'grayscale transition-[filter,opacity] duration-700 ease-[var(--ease-out)] group-hover:grayscale-0 group-focus-within:grayscale-0'
 
 function StudyCard({ quote, quoteBy, quoteRole, img, logo, logoFill, contain, focus }) {
   const fit = contain ? 'object-contain p-6 min-[480px]:p-8' : 'object-cover'
-  const tilt = useTilt()
   return (
     <article className="flex min-h-[100svh] flex-col justify-center px-3 py-8 min-[480px]:px-4 min-[480px]:py-10 md:px-8 lg:px-10">
-      <div
-        ref={tilt}
-        className="ratio-tilt group relative grid min-h-[min(72svh,40rem)] bg-ratio-paper text-ratio-ink min-[480px]:min-h-[72svh] md:grid-cols-2"
-      >
-        <span className="ratio-tilt-glare" aria-hidden="true" />
+      <div className="group relative grid min-h-[min(72svh,40rem)] bg-ratio-paper text-ratio-ink min-[480px]:min-h-[72svh] md:grid-cols-2">
         <div className="flex flex-col justify-between gap-8 px-4 py-6 min-[480px]:gap-10 min-[480px]:px-5 min-[480px]:py-8 md:px-9 md:py-10">
           <p className="font-display max-w-[16ch] text-[clamp(1.2rem,5.2vw,2.2rem)] leading-[1.28] italic">
             {quote}
@@ -188,7 +140,7 @@ function StudyCard({ quote, quoteBy, quoteRole, img, logo, logoFill, contain, fo
             <img
               src={img}
               alt=""
-              className={`ratio-tilt-media h-full w-full ${fit} ${TINT}`}
+              className={`h-full w-full ${fit} ${TINT}`}
               style={focus ? { objectPosition: focus } : undefined}
             />
           ) : null}

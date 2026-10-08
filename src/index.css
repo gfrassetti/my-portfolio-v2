@@ -325,56 +325,6 @@ html.is-loading body {
   }
 }
 
-/* Work card 3D hover. */
-.ratio-tilt {
-  transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transition:
-    transform 700ms var(--ease-out),
-    box-shadow 700ms var(--ease-out);
-  will-change: transform;
-}
-
-.ratio-tilt[data-tilting] {
-  transition:
-    transform 140ms linear,
-    box-shadow 300ms var(--ease-out);
-  box-shadow: calc(var(--px, 0) * -28px) calc(var(--py, 0) * -28px + 22px) 0 rgb(22 17 14 / 0.12);
-}
-
-.ratio-tilt-media {
-  scale: 1.001;
-}
-
-.ratio-tilt[data-tilting] .ratio-tilt-media {
-  scale: 1.06;
-  translate: calc(var(--px, 0) * -16px) calc(var(--py, 0) * -16px);
-}
-
-.ratio-tilt-glare {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  opacity: 0;
-  background: radial-gradient(
-    circle at var(--gx, 50%) var(--gy, 50%),
-    rgb(235 230 220 / 0.14),
-    transparent 42%
-  );
-  transition: opacity 400ms ease;
-}
-
-.ratio-tilt[data-tilting] .ratio-tilt-glare {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ratio-tilt,
-  .ratio-tilt[data-tilting] {
-    transform: none;
-  }
-}
-
 /* Rupture party: burst + drifting parade. */
 .ratio-party {
   pointer-events: none;
