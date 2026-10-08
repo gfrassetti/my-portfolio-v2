@@ -375,6 +375,176 @@ html.is-loading body {
   }
 }
 
+/* Footer stack marks are white-on-ink; on the amber wash they need ink. */
+html[data-ratio-rupture='on'] [data-ledger-track] img {
+  filter: grayscale(1) brightness(0) !important;
+}
+
+/* Rupture party: burst + drifting parade. */
+.ratio-party {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 66;
+  overflow: hidden;
+}
+
+.ratio-party-drift {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.ratio-party[data-on='true'] .ratio-party-drift {
+  opacity: 1;
+}
+
+.ratio-party-lane {
+  position: absolute;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  animation: ratio-lane var(--dur) linear var(--delay) infinite;
+  animation-play-state: paused;
+}
+
+.ratio-party[data-on='true'] .ratio-party-lane {
+  animation-play-state: running;
+}
+
+.ratio-party-lane:nth-child(even) {
+  animation-direction: reverse;
+}
+
+.ratio-party-bob {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: ratio-bob 2.6s var(--ease-in-out) infinite alternate;
+}
+
+.ratio-party-lane:nth-child(3n) .ratio-party-bob {
+  animation-duration: 1.9s;
+}
+
+.ratio-party-lane:nth-child(3n + 1) .ratio-party-bob {
+  animation-duration: 3.3s;
+  animation-name: ratio-bob-spin;
+  animation-timing-function: linear;
+  animation-direction: normal;
+}
+
+.ratio-party-bob svg,
+.ratio-party-piece svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ratio-party-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  visibility: hidden;
+  will-change: transform;
+}
+
+@keyframes ratio-lane {
+  from {
+    transform: translateX(-20vw);
+  }
+  to {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes ratio-bob {
+  from {
+    translate: 0 -18px;
+    rotate: -10deg;
+  }
+  to {
+    translate: 0 18px;
+    rotate: 12deg;
+  }
+}
+
+@keyframes ratio-bob-spin {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Inline stickers come alive in rupture: wobble, nudge, spin. */
+html[data-ratio-rupture='on'] span[data-rupture-on] {
+  animation: ratio-sticker-wobble 2.2s var(--ease-in-out) infinite alternate;
+}
+
+html[data-ratio-rupture='on'] span[data-rupture-on]:nth-of-type(3n) {
+  animation: ratio-sticker-spin 6s linear infinite;
+}
+
+html[data-ratio-rupture='on'] span[data-rupture-on]:nth-of-type(3n + 1) {
+  animation: ratio-sticker-nudge 1.4s var(--ease-in-out) infinite alternate;
+}
+
+html[data-ratio-rupture='on'] svg[data-rupture-on] {
+  animation: ratio-face-bob 1.8s var(--ease-in-out) infinite alternate;
+  transform-origin: 50% 80%;
+}
+
+@keyframes ratio-sticker-wobble {
+  from {
+    rotate: -6deg;
+  }
+  to {
+    rotate: 7deg;
+  }
+}
+
+@keyframes ratio-sticker-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes ratio-sticker-nudge {
+  from {
+    translate: -6px 0;
+  }
+  to {
+    translate: 8px -3px;
+  }
+}
+
+@keyframes ratio-face-bob {
+  from {
+    rotate: -5deg;
+    scale: 1;
+  }
+  to {
+    rotate: 6deg;
+    scale: 1.06;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ratio-party {
+    display: none;
+  }
+
+  html[data-ratio-rupture='on'] [data-rupture-on] {
+    animation: none;
+  }
+}
+
 /* Native scrollbar off — ScrollRail draws ours. */
 html {
   scrollbar-width: none;
@@ -1062,6 +1232,20 @@ html[data-ratio-rupture='on'] .ratio-hit-slab {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transform-origin: left center;
+}
+
+.ratio-ide-chars {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  transition: color 160ms ease;
+}
+
+.ratio-ide-chars[data-state='miss'] {
+  color: #e23c24;
+}
+
+.ratio-ide-chars[data-state='on'] {
+  font-weight: 700;
 }
 
 .ratio-play {

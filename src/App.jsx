@@ -2,6 +2,7 @@ import SmoothScrollProvider from './components/SmoothScrollProvider.jsx'
 import ScrollRail from './components/ScrollRail.jsx'
 import BrutalCursor from './components/BrutalCursor.jsx'
 import Loader from './components/Loader.jsx'
+import RuptureParty from './components/sections/ratio/RuptureParty.jsx'
 import NavRatio from './components/sections/ratio/NavRatio.jsx'
 import HeroTools from './components/sections/ratio/HeroTools.jsx'
 import HeroCube from './components/sections/chapters/HeroCube.jsx'
@@ -162,6 +163,7 @@ export default function App() {
       <ScrollRail />
       <BrutalCursor />
       <Loader label={t.loader.label} tag={t.loader.tag} />
+      <RuptureParty />
       <div id="top" className="bg-ratio-paper text-ratio-ink">
         <NavRatio
           brand="Guido Frassetti"
@@ -273,6 +275,8 @@ export default function App() {
           spine3Author={t.footer.stack3}
           spine4Title={t.plates.four}
           spine4Author={t.footer.stack4}
+          spine5Title="Python"
+          spine6Title="PHP"
         />
       </div>
     </SmoothScrollProvider>

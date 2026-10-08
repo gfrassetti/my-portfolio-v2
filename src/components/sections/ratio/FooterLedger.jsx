@@ -34,7 +34,8 @@ export default function FooterLedger({
   spine2Title = 'Fold',
   spine3Title = 'Ratio',
   spine4Title = 'Rules',
-  spine5Title = 'Baseline',
+  spine5Title = 'Python',
+  spine6Title = 'PHP',
   anchor = 'index',
 }) {
   const root = useRef(null)
@@ -44,6 +45,7 @@ export default function FooterLedger({
     { title: spine3Title },
     { title: spine4Title },
     { title: spine5Title },
+    { title: spine6Title },
   ]
   const letters = Array.from(String(ghost).replace(/\s/g, '').toUpperCase())
   const items = []
@@ -104,6 +106,7 @@ export default function FooterLedger({
         spine3Title,
         spine4Title,
         spine5Title,
+        spine6Title,
       ],
     },
   )

@@ -186,6 +186,7 @@ function TypeCode({ play, name, feel, comment, value, hint, playLabel, pauseLabe
         <span>UTF-8</span>
         <span data-ide-ln>Ln 1</span>
         <span>Spaces: 2</span>
+        <span data-ide-chars className="ratio-ide-chars" aria-live="polite" />
       </div>
     </div>
   )

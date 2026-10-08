@@ -216,6 +216,15 @@ export function RupturePlay({
     }
   }, [on, target])
 
+  // Status-bar keystroke counter: typed / needed, flips to ON when run.
+  useEffect(() => {
+    const out = wrapRef.current?.closest('[data-ide]')?.querySelector('[data-ide-chars]')
+    if (!out) return
+    const n = on ? target.length : typed.length
+    out.textContent = on ? `✓ ${flag}` : `Chars ${String(n).padStart(2, '0')} / ${target.length}`
+    out.dataset.state = on ? 'on' : n && !isCallPrefix(typed, target) ? 'miss' : n ? 'typing' : ''
+  }, [typed, on, target, flag])
+
   const prefix = !on && isCallPrefix(typed, target)
   const shown = on ? target : typed
   const ghost = on || !prefix ? '' : target.slice(typed.length)
