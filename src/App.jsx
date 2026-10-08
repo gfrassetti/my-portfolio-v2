@@ -5,9 +5,7 @@ import Loader from './components/Loader.jsx'
 import RuptureParty from './components/sections/ratio/RuptureParty.jsx'
 import NavRatio from './components/sections/ratio/NavRatio.jsx'
 import HeroTools from './components/sections/ratio/HeroTools.jsx'
-import HeroCube from './components/sections/chapters/HeroCube.jsx'
 import WorkChapters from './components/sections/chapters/WorkChapters.jsx'
-import NotesChapters from './components/sections/chapters/NotesChapters.jsx'
 import FourPlates from './components/sections/ratio/FourPlates.jsx'
 import SplitStudy from './components/sections/ratio/SplitStudy.jsx'
 import FitStack from './components/sections/ratio/FitStack.jsx'
@@ -137,26 +135,6 @@ export default function App() {
       focus: '8% 30%',
     },
   ]
-  const noteChapters = [
-    {
-      kicker: 'motion',
-      title: t.notes.phrase,
-      blurb: t.notes.frontBlurb,
-      tools: t.notes.cubes[0],
-    },
-    {
-      kicker: 'server',
-      title: t.notes.breakLine,
-      blurb: t.notes.backBlurb,
-      tools: t.notes.cubes[1],
-    },
-    {
-      kicker: 'growth',
-      title: t.notes.worthLine,
-      blurb: t.notes.growthBlurb,
-      tools: t.notes.cubes[2],
-    },
-  ]
 
   return (
     <SmoothScrollProvider>
@@ -181,28 +159,17 @@ export default function App() {
         />
 
         <main>
-          <div id="intro" className={isMobile ? 'h-svh overflow-hidden' : undefined}>
-            {isMobile ? (
-              <HeroCube
-                key={`cube-${locale}`}
-                line1={t.hero.kineticLine1}
-                line2={t.hero.kineticLine2}
-                role={t.hero.roleLine}
-                kicker={t.hero.pitch}
-                meta={t.hero.kineticMeta}
-              />
-            ) : (
-              <HeroTools
-                key={locale}
-                word1={t.hero.word1}
-                word2={t.hero.word2}
-                word3={t.hero.word3}
-                word4={t.hero.word4}
-                word5={t.hero.word5}
-                note={t.hero.note}
-                aside={t.hero.aside}
-              />
-            )}
+          <div id="intro">
+            <HeroTools
+              key={locale}
+              word1={t.hero.word1}
+              word2={t.hero.word2}
+              word3={t.hero.word3}
+              word4={t.hero.word4}
+              word5={t.hero.word5}
+              note={t.hero.note}
+              aside={t.hero.aside}
+            />
           </div>
           <FourPlates
             eyebrow={t.plates.eyebrow}
@@ -211,48 +178,40 @@ export default function App() {
             plate3Title={t.plates.three}
             plate4Title={t.plates.four}
             nextImg={platesThrough}
-            overlap={!isMobile}
+            overlap
           />
           {isMobile ? (
             <WorkChapters key={`work-${locale}`} cases={cases} anchor="study" />
           ) : (
             <SplitStudy key={`study-${locale}`} anchor="study" cases={cases} />
           )}
-          {isMobile ? (
-            <NotesChapters
-              key={`notes-${locale}`}
-              note1={t.notes.one}
-              chapters={noteChapters}
-            />
-          ) : (
-            <FitStack
-              key={`notes-${locale}`}
-              noteLabel={t.notes.label}
-              note1={t.notes.one}
-              note2={t.notes.two}
-              note2Mark={t.notes.twoMark}
-              note3={t.notes.three}
-              note3Mark={t.notes.threeMark}
-              phrase={t.notes.phrase}
-              breakLine={t.notes.breakLine}
-              rulesLine={t.notes.rulesLine}
-              worthLine={t.notes.worthLine}
-              frontBlurb={t.notes.frontBlurb}
-              backBlurb={t.notes.backBlurb}
-              growthBlurb={t.notes.growthBlurb}
-              closer={t.notes.closer}
-              closerPlay={t.notes.closerPlay}
-              closerArg={t.notes.closerArg}
-              closerProp={t.notes.closerProp}
-              closerComment={t.notes.closerComment}
-              closerHint={t.notes.closerHint}
-              playLabel={t.notes.playLabel}
-              pauseLabel={t.notes.pauseLabel}
-              cubes={t.notes.cubes}
-              brand="GUIDO"
-              studio="FRASSETTI — 2026"
-            />
-          )}
+          <FitStack
+            key={`notes-${locale}`}
+            noteLabel={t.notes.label}
+            note1={t.notes.one}
+            note2={t.notes.two}
+            note2Mark={t.notes.twoMark}
+            note3={t.notes.three}
+            note3Mark={t.notes.threeMark}
+            phrase={t.notes.phrase}
+            breakLine={t.notes.breakLine}
+            rulesLine={t.notes.rulesLine}
+            worthLine={t.notes.worthLine}
+            frontBlurb={t.notes.frontBlurb}
+            backBlurb={t.notes.backBlurb}
+            growthBlurb={t.notes.growthBlurb}
+            closer={t.notes.closer}
+            closerPlay={t.notes.closerPlay}
+            closerArg={t.notes.closerArg}
+            closerProp={t.notes.closerProp}
+            closerComment={t.notes.closerComment}
+            closerHint={t.notes.closerHint}
+            playLabel={t.notes.playLabel}
+            pauseLabel={t.notes.pauseLabel}
+            cubes={t.notes.cubes}
+            brand="GUIDO"
+            studio="FRASSETTI — 2026"
+          />
         </main>
 
         <FooterLedger

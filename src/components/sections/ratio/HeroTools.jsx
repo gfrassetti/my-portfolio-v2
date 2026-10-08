@@ -95,31 +95,23 @@ function powerSlot(i) {
 
 const CUBE = { x: -385, y: 20, w: 197, h: 197, z: CUBE_Z }
 
-function cubeSteps(hop) {
-  return [
-    { delay_px: HOP_1, dx: 70, dy: hop, rot: 90, from: 0, acc: 'ease-out', speed: 1 },
-    { dx: 202, dy: hop, rot: 90, speed: 1 },
-    { dx: 255, dy: 0, rot: 180, acc: 'ease-in', speed: 1 },
-    { dx: 0, dy: 0, rot: 360, speed: 1 },
-    { delay_px: HOP_2, dx: 50, dy: hop, rot: 270, acc: 'ease-out', speed: 1 },
-    { dx: 332, dy: hop, rot: 270, speed: 1 },
-    { dx: 502, dy: 0, rot: 360, acc: 'ease-in', speed: 1 },
-    { dx: 0, dy: 0, rot: 360, speed: 1 },
-  ]
-}
+/** Landscape hop height the rail timing was authored against (mag units). */
+const HOP_REF = 260
 
-/** Phone: short floor hops so the cube stays on the type baseline. */
-function cubeStepsMobile(hop) {
-  const h = Math.max(-120, hop)
+function cubeSteps(hop) {
+  // Portrait frames sit much higher, so the hop is several times longer. Speed
+  // it up in proportion so the cube lands on the same beat as on desktop —
+  // otherwise it is still mid-air when BASELINE rolls in.
+  const speed = Math.max(1, Math.abs(hop) / HOP_REF)
   return [
-    { delay_px: HOP_1, dx: 48, dy: h, rot: 45, from: 0, acc: 'ease-out', speed: 1 },
-    { dx: 120, dy: h, rot: 45, speed: 1 },
-    { dx: 160, dy: 0, rot: 0, acc: 'ease-in', speed: 1 },
-    { dx: 0, dy: 0, rot: 0, speed: 1 },
-    { delay_px: Math.round(HOP_2 * 0.72), dx: 36, dy: h, rot: -45, acc: 'ease-out', speed: 1 },
-    { dx: 200, dy: h, rot: -45, speed: 1 },
-    { dx: 280, dy: 0, rot: 0, acc: 'ease-in', speed: 1 },
-    { dx: 0, dy: 0, rot: 0, speed: 1 },
+    { delay_px: HOP_1, dx: 70, dy: hop, rot: 90, from: 0, acc: 'ease-out', speed },
+    { dx: 202, dy: hop, rot: 90, speed },
+    { dx: 255, dy: 0, rot: 180, acc: 'ease-in', speed },
+    { dx: 0, dy: 0, rot: 360, speed },
+    { delay_px: HOP_2, dx: 50, dy: hop, rot: 270, acc: 'ease-out', speed },
+    { dx: 332, dy: hop, rot: 270, speed },
+    { dx: 502, dy: 0, rot: 360, acc: 'ease-in', speed },
+    { dx: 0, dy: 0, rot: 360, speed },
   ]
 }
 
@@ -378,18 +370,20 @@ export default function HeroTools({
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
       const s = magScale(pin.offsetWidth)
-      const narrow = pin.offsetWidth < 480
+      // Phones run the same choreography; only spacing (dock clearance, block
+      // minimums) and the hold after the beat are tuned for the small screen.
+      const phone = pin.offsetWidth < 480
       const bottomEl = pin.querySelector('[data-bottom]')
       const frame = pin.querySelector('[data-top-frame]')
       // Phone: clear the index dock so type/cube never sit under INTRO/WORKS/NOTES
       const floorGap = Math.max(
-        narrow ? 64 : 28,
-        Math.round(bottomEl.offsetHeight * (narrow ? 0.08 : 0.08)),
+        phone ? 64 : 28,
+        Math.round(bottomEl.offsetHeight * 0.08),
       )
-      const topGap = Math.max(narrow ? 12 : 20, Math.round(bottomEl.offsetHeight * (narrow ? 0.05 : 0.08)))
+      const topGap = Math.max(phone ? 12 : 20, Math.round(bottomEl.offsetHeight * (phone ? 0.05 : 0.08)))
       const cubeSide = Math.min(
         CUBE.w * s,
-        Math.max(narrow ? 48 : 72, bottomEl.offsetHeight - floorGap - topGap),
+        Math.max(phone ? 48 : 72, bottomEl.offsetHeight - floorGap - topGap),
       )
       const cubeMag = cubeSide / s
 
@@ -411,11 +405,6 @@ export default function HeroTools({
         const frameR = frame.getBoundingClientRect()
         const border = parseFloat(getComputedStyle(frame).borderBottomWidth) || 1
         hopDy = -Math.round((stageR.bottom - floorGap - (frameR.bottom - border)) / s)
-        if (narrow) {
-          // Stay on the bottom stage — full galley hop never meets GUIDO/WEB
-          const floorHop = Math.round((bottomEl.offsetHeight * 0.22) / s)
-          hopDy = -Math.min(Math.abs(hopDy), Math.max(64, floorHop))
-        }
         galleyBottomPx = Math.round(stageR.bottom - (frameR.bottom - border))
         const frameW = frame.offsetWidth
         const frameH = frame.offsetHeight
@@ -423,18 +412,12 @@ export default function HeroTools({
         FURNITURE.forEach((item, i) => {
           const el = stage.querySelector(`[data-kind="slug"][data-i="${i}"]`)
           if (!el) return
-          // Guides clutter a 480px stage — keep solid blocks only
-          if (narrow && item.guide) {
-            el.style.display = 'none'
-            return
-          }
-          el.style.display = ''
           const w = item.guide
             ? 1
             : item.cube
-              ? Math.max(narrow ? 28 : 44, item.fw * frameH)
-              : Math.max(narrow ? 32 : 48, item.fw * frameW)
-          const h = item.guide ? frameH : item.cube ? w : Math.max(narrow ? 32 : 48, item.fh * frameH)
+              ? Math.max(phone ? 28 : 44, item.fw * frameH)
+              : Math.max(phone ? 32 : 48, item.fw * frameW)
+          const h = item.guide ? frameH : item.cube ? w : Math.max(phone ? 32 : 48, item.fh * frameH)
           el.style.position = 'absolute'
           el.style.left = `${originX + item.fx * frameW}px`
           el.style.top = 'auto'
@@ -573,13 +556,16 @@ export default function HeroTools({
         return player
       }
 
+      // Word 1 drops out through the floor. In mag units the default drop is
+      // too short on phones (small scale) — make sure it clears the viewport.
+      const formDrop = Math.max(300, Math.ceil((floorGap + 0.72 * FONT * s + 48) / s))
       form.forEach((_, i) => {
         const slot = slotAt(FORM_SLOTS, i)
         add(stage.querySelector(`[data-kind="form"][data-i="${i}"]`), [
           {
             delay_px: slot.delay_px,
             dx: -40,
-            dy: 300,
+            dy: formDrop,
             rot: -7,
             from: 0,
             acc: 'ease-in',
@@ -590,13 +576,12 @@ export default function HeroTools({
       add(stage.querySelector('[data-kind="are"]'), [{ dx: -2000, dy: 0, speed: 1 }])
       const justPlayers = just.map((_, i) => {
         const slot = slotAt(JUST_SLOTS, i)
-        const tumbleDy = narrow ? Math.round(slot.dy2 * 0.22) : slot.dy2
         return add(stage.querySelector(`[data-kind="just"][data-i="${i}"]`), [
           { dx: slot.inDx, dy: slot.inDy, speed: 1 },
           {
-            dx: narrow ? Math.round(slot.dx2 * 0.55) : slot.dx2,
-            dy: tumbleDy,
-            rot: narrow ? 90 : 360,
+            dx: slot.dx2,
+            dy: slot.dy2,
+            rot: 360,
             acc: 'ease-out',
             speed: slot.speed2,
           },
@@ -607,7 +592,6 @@ export default function HeroTools({
         return Math.max(0, p.frames[2].ind - 1)
       })
       const guidoPulse = (scrollPx) => {
-        if (narrow) return false
         const n = guidoLandAt.length
         if (!n) return false
         const start = Math.min(...guidoLandAt) * 0.7
@@ -618,7 +602,7 @@ export default function HeroTools({
         const local = u * n - slot
         return local < 0.48
       }
-      const cubePlayer = add(cube, narrow ? cubeStepsMobile(hopDy) : cubeSteps(hopDy))
+      const cubePlayer = add(cube, cubeSteps(hopDy))
       const slugEls = FURNITURE.map((_, i) => stage.querySelector(`[data-kind="slug"][data-i="${i}"]`))
       const slugPlayers = slugEls.map((el, i) =>
         el ? attachScroll(el, slugSteps(FURNITURE[i]), s) : null,
@@ -702,17 +686,15 @@ export default function HeroTools({
         }
         return false
       }
-      const plateGap = narrow ? 4 : 28
-      const slabMax = narrow
-        ? Math.max(cubeSide, pin.offsetWidth - 20)
-        : Math.max(cubeSide, pin.offsetWidth - Math.max(64, pin.offsetWidth * 0.08))
+      const plateGap = 28
+      const slabMax = Math.max(cubeSide, pin.offsetWidth - Math.max(64, pin.offsetWidth * 0.08))
       gsap.set(cubeFill, {
         width: cubeSide,
         height: cubeSide,
         maxHeight: cubeSide,
         scaleX: 1,
         scaleY: 1,
-        transformOrigin: narrow ? 'left bottom' : 'left center',
+        transformOrigin: 'left center',
       })
 
       const capCubeBeforeWord = (glyphs) => {
@@ -732,19 +714,13 @@ export default function HeroTools({
       }
 
       const beatRange = MAG_SCROLL * s
-      const holdPx = pin.offsetHeight * (narrow ? 0.18 : 0.4)
+      const holdPx = pin.offsetHeight * (phone ? 0.15 : 0.4)
       const range = beatRange + holdPx
       const T = MAG_SCROLL / 1000
       const holdT = holdPx / s / 1000
       const growIndex = Math.min(2, Math.max(0, power.length - 1))
-      // Phone: grow only after the cube has landed flat (end of its rail)
-      const cubeLandT = cubePlayer
-        ? (cubePlayer.duration / Math.max(1, range)) * (T + holdT)
-        : T - 0.8
-      const growAt = narrow
-        ? Math.min(T + holdT - 0.4, Math.max(cubeLandT + 0.04, Math.abs(powerSlot(growIndex).dx1) / 1000 + 0.2))
-        : Math.abs(powerSlot(growIndex).dx1) / 1000
-      const growDur = Math.max(narrow ? 0.55 : 0.85, T + holdT - growAt - 0.04)
+      const growAt = Math.abs(powerSlot(growIndex).dx1) / 1000
+      const growDur = Math.max(0.85, T + holdT - growAt - 0.04)
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
@@ -762,21 +738,13 @@ export default function HeroTools({
           onUpdate(self) {
             const px = self.progress * range
             const t = self.progress * (T + holdT)
-            const parking = narrow && t >= growAt
-            players.forEach((p) => {
-              if (parking && p === cubePlayer) {
-                p.seek(p.duration)
-                return
-              }
-              p.seek(px)
-            })
+            players.forEach((p) => p.seek(px))
             if (t < growAt) {
-              const capTargets = narrow ? [...plateGlyphs] : [...foldGlyphs, ...plateGlyphs]
-              capCubeBeforeWord(capTargets)
+              capCubeBeforeWord([...foldGlyphs, ...plateGlyphs])
             }
             const rawCube = cube.getBoundingClientRect()
             const cubeOk = rawCube.width > 8 && rawCube.height > 8
-            const cubeR = cubeOk ? insetRect(rawCube, narrow ? 0.02 : 0.04) : null
+            const cubeR = cubeOk ? insetRect(rawCube, 0.04) : null
             const nearWeb = plateGlyphs.length
               ? [...plateGlyphs].some((g) => letterHit(cubeR || rawCube, g))
               : false
@@ -787,8 +755,8 @@ export default function HeroTools({
                 nearWeb ||
                 (cubeR && cubeR.width > 4 && hitHollow(cubeR)),
             )
-            cubeFace?.classList.toggle('is-chase', chasing && !parking)
-            cube.style.zIndex = String(chasing || parking ? TYPE_Z + 80 : CUBE_Z)
+            cubeFace?.classList.toggle('is-chase', chasing)
+            cube.style.zIndex = String(chasing ? TYPE_Z + 80 : CUBE_Z)
 
             slugEls.forEach((el, i) => {
               const player = slugPlayers[i]
@@ -846,15 +814,13 @@ export default function HeroTools({
       tl.to({}, { duration: T + holdT }, 0)
       tl.eventCallback('onUpdate', pushLetters)
       tl.to(asideEl, { autoAlpha: 1, duration: 0.08 }, 1.65)
-      if (!narrow) {
-        tl.to(cubeFill, { width: pin.offsetWidth, height: cubeSide, duration: 1.2, ease: 'none' }, 2.15)
-        tl.to(cubeFill, { width: cubeSide, height: cubeSide, duration: 0.5, ease: 'none' }, 3.35)
-      }
+      tl.to(cubeFill, { width: pin.offsetWidth, height: cubeSide, duration: 1.2, ease: 'none' }, 2.15)
+      tl.to(cubeFill, { width: cubeSide, height: cubeSide, duration: 0.5, ease: 'none' }, 3.35)
       const typeEls = stage.querySelectorAll(
         '[data-kind]:not([data-kind="cube"]):not([data-kind="slug"]):not([data-kind="power"])',
       )
-      const fadeAt = narrow ? Math.max(0, growAt - 0.08) : Math.max(growAt + 0.35, T - 0.4)
-      tl.to(typeEls, { autoAlpha: 0, duration: narrow ? 0.16 : 0.22 }, fadeAt)
+      const fadeAt = Math.max(growAt + 0.35, T - 0.4)
+      tl.to(typeEls, { autoAlpha: 0, duration: 0.22 }, fadeAt)
       if (asideEl) tl.to(asideEl, { autoAlpha: 0, duration: 0.12 }, fadeAt)
       tl.to(
         cubeFill,

@@ -30,7 +30,7 @@ export default function WorkChapters({ cases = [], anchor = 'study' }) {
         scrollTrigger: {
           trigger: pin,
           start: 'top top',
-          end: `+=${layers.length * 95}%`,
+          end: `+=${layers.length * 50}%`,
           pin: true,
           scrub: 0.6,
           anticipatePin: 1,

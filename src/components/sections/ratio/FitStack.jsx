@@ -371,7 +371,8 @@ export default function FitStack({
           scrollTrigger: {
             trigger: lid,
             start: 'top top',
-            end: '+=340%',
+            // Phones: same beat, less runway.
+            end: () => (window.innerWidth < 768 ? '+=200%' : '+=340%'),
             pin: true,
             scrub: 0.55,
             anticipatePin: 1,

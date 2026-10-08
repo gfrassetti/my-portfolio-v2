@@ -199,7 +199,7 @@ export default function FourPlates({
 
       mm.add('(min-width: 1024px)', () => runPlates({ endPct: 560, fullExit: true }))
       mm.add('(min-width: 480px) and (max-width: 1023px)', () => runPlates({ endPct: 360, fullExit: true }))
-      mm.add('(max-width: 479px)', () => runPlates({ endPct: 280, fullExit: true }))
+      mm.add('(max-width: 479px)', () => runPlates({ endPct: 170, fullExit: true }))
 
       return () => mm.revert()
     },
