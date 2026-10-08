@@ -375,11 +375,6 @@ html.is-loading body {
   }
 }
 
-/* Footer stack marks are white-on-ink; on the amber wash they need ink. */
-html[data-ratio-rupture='on'] [data-ledger-track] img {
-  filter: grayscale(1) brightness(0) !important;
-}
-
 /* Rupture party: burst + drifting parade. */
 .ratio-party {
   pointer-events: none;
@@ -810,14 +805,6 @@ html[data-ratio-rupture='on'] [data-rupture-off] {
   opacity: 0;
 }
 
-[data-ledger-ghost] {
-  -webkit-text-stroke: 2px #ebe6dc;
-  paint-order: stroke fill;
-}
-
-html[data-ratio-rupture='on'] [data-ledger-ghost] {
-  -webkit-text-stroke: 6px #111;
-}
 
 
 .ratio-polyfill-sticky {

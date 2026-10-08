@@ -257,8 +257,10 @@ export default function App() {
 
         <FooterLedger
           title={t.footer.title}
-          ghost={t.footer.ghost}
           hint={t.footer.hint}
+          brand="Guido Frassetti"
+          studio="2026"
+          contactLabel={t.footer.contact}
           row1Label={t.footer.row1Label}
           row1Value={t.footer.row1Value}
           row2Label={t.footer.row2Label}
@@ -267,16 +269,8 @@ export default function App() {
           row3Value={t.footer.row3Value}
           row4Label={t.footer.row4Label}
           row4Value={t.footer.row4Value}
-          spine1Title={t.plates.one}
-          spine1Author={t.footer.stack1}
-          spine2Title={t.plates.two}
-          spine2Author={t.footer.stack2}
-          spine3Title={t.plates.three}
-          spine3Author={t.footer.stack3}
-          spine4Title={t.plates.four}
-          spine4Author={t.footer.stack4}
-          spine5Title="Python"
-          spine6Title="PHP"
+          row5Label="Stack"
+          row5Value="React · Next · Node · Python · PHP"
         />
       </div>
     </SmoothScrollProvider>

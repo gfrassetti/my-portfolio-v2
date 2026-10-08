@@ -2,8 +2,6 @@ import reactLogo from './assets/stack/react.svg'
 import nextLogo from './assets/stack/next.svg'
 import wordpressLogo from './assets/stack/wordpress.svg'
 import nodeLogo from './assets/stack/node.svg'
-import pythonLogo from './assets/stack/python.svg'
-import phpLogo from './assets/stack/php.svg'
 
 const BW_WHITE = 'grayscale(1) brightness(0) invert(1)'
 const BW_BLACK = 'grayscale(1) brightness(0)'
@@ -24,4 +22,4 @@ export function StackLogo({ src, invert = false }) {
   )
 }
 
-export const STACK_LOGOS = [reactLogo, nextLogo, wordpressLogo, nodeLogo, pythonLogo, phpLogo]
+export const STACK_LOGOS = [reactLogo, nextLogo, wordpressLogo, nodeLogo]

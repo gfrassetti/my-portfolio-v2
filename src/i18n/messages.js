@@ -140,7 +140,7 @@ export const es = {
   },
   footer: {
     title: 'GUIDO FRASSETTI DEV',
-    ghost: 'CHARLEMOS',
+    contact: 'Contacto',
     hint: 'Scrolleá ¬',
     row1Label: 'Rol',
     row1Value: 'Full Stack Developer',
@@ -298,7 +298,7 @@ export const en = {
   },
   footer: {
     title: "LET'S CONNECT",
-    ghost: 'CONNECT',
+    contact: 'Contact',
     hint: 'Scroll down ¬',
     row1Label: 'Role',
     row1Value: 'Full Stack Developer',
