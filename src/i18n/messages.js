@@ -1,6 +1,7 @@
 export const es = {
   nav: {
     links: ['Intro | #intro', 'Trabajos | #study', 'Notas | #notes'],
+    role: 'Full Stack Developer',
     credit: 'BUENOS AIRES',
     rupture: 'Rupture',
     on: 'On',
@@ -32,6 +33,8 @@ export const es = {
     three: 'WordPress',
     four: 'Node',
   },
+  work: { label: 'Trabajos', link: 'Ver sitio' },
+  loader: { label: 'Cargando', tag: 'Portfolio — 2026' },
   laseraway: {
     kicker: 'LaserAway',
     meta: 'Producto — alto tráfico',
@@ -92,6 +95,21 @@ export const es = {
       'Sitio completo para El Encuentro Paddle Club: bloques a medida, ACF y una home que se siente club, no plantilla.',
     role: 'Full Stack Developer',
   },
+  scrolllab: {
+    kicker: 'Scroll Lab',
+    meta: 'Estudio — plantillas storytelling',
+    specLabel: 'rol',
+    specValue: 'full stack',
+    spec2Label: 'stack',
+    spec2Value: 'React · Vite',
+    spec3Label: 'foco',
+    spec3Value: 'scroll motion',
+    spec4Label: 'más',
+    spec4Value: 'builder · e-commerce',
+    quote:
+      'Estudio de plantillas web storytelling: modelos con scroll animado y parallax, un builder propio y checkout para llevarte el código.',
+    role: 'Full Stack Developer',
+  },
   notes: {
     label: '(Notas)',
     one: 'Diseño y construyo productos web modernos: fronts que escalan y back-ends que entregan.',
@@ -141,6 +159,7 @@ export const es = {
 export const en = {
   nav: {
     links: ['Intro | #intro', 'Works | #study', 'Notes | #notes'],
+    role: 'Full Stack Developer',
     credit: 'BUENOS AIRES',
     rupture: 'Rupture',
     on: 'On',
@@ -172,6 +191,8 @@ export const en = {
     three: 'WordPress',
     four: 'Node',
   },
+  work: { label: 'Works', link: 'Visit site' },
+  loader: { label: 'Loading', tag: 'Portfolio — 2026' },
   laseraway: {
     kicker: 'LaserAway',
     meta: 'Product — high traffic',
@@ -230,6 +251,21 @@ export const en = {
     spec4Value: 'ACF · Elementor',
     quote:
       'Full site for El Encuentro Paddle Club: custom blocks, ACF, and a home that feels like a club, not a theme.',
+    role: 'Full Stack Developer',
+  },
+  scrolllab: {
+    kicker: 'Scroll Lab',
+    meta: 'Studio — storytelling templates',
+    specLabel: 'role',
+    specValue: 'full stack',
+    spec2Label: 'stack',
+    spec2Value: 'React · Vite',
+    spec3Label: 'focus',
+    spec3Value: 'scroll motion',
+    spec4Label: 'more',
+    spec4Value: 'builder · e-commerce',
+    quote:
+      'Storytelling web template studio: scroll-driven, parallax models, an in-house builder, and checkout to take the code home.',
     role: 'Full Stack Developer',
   },
   notes: {

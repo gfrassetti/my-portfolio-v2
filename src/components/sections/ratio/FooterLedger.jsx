@@ -113,7 +113,7 @@ export default function FooterLedger({
       <div data-ledger-pin className="relative h-svh overflow-hidden">
         <header className="pointer-events-none absolute inset-x-0 top-10 z-20 flex flex-col gap-3 px-4 pt-4 min-[480px]:top-12 min-[480px]:flex-row min-[480px]:items-start min-[480px]:justify-between min-[480px]:gap-6 min-[480px]:px-5 min-[480px]:pt-5 md:px-8 md:pt-6">
           <div className="min-w-0">
-            <h2 className="whitespace-nowrap font-brico text-[clamp(1.1rem,calc((100vw-2.5rem)/15),7.5rem)] font-medium leading-none tracking-[-0.05em] uppercase">
+            <h2 className="whitespace-nowrap font-brico text-[clamp(1.6rem,calc((100vw-2.5rem)/12.5),10rem)] font-medium leading-none tracking-[-0.05em] uppercase">
               {title}
             </h2>
             <p className="mt-6">
@@ -174,15 +174,26 @@ export default function FooterLedger({
           })}
 
           <dl className="mb-2 ml-[4vw] flex h-[44vh] w-[min(80vw,22rem)] shrink-0 flex-col justify-end">
-            {rows.map(([k, v]) => (
-              <div
-                key={k}
-                className="flex items-baseline justify-between gap-3 border-b border-ratio-ink/30 py-2 text-[11px] tracking-[0.14em] uppercase min-[480px]:gap-4"
-              >
-                <dt className="shrink-0 opacity-50">{k}</dt>
-                <dd className="min-w-0 text-right [overflow-wrap:anywhere]">{v}</dd>
-              </div>
-            ))}
+            {rows.map(([k, v]) => {
+              const href = /@/.test(v) ? `mailto:${v}` : /^\+?[\d\s]{8,}$/.test(v) ? `tel:${v.replace(/\s/g, '')}` : null
+              return (
+                <div
+                  key={k}
+                  className="flex items-baseline justify-between gap-3 border-b border-ratio-ink/30 py-2.5 text-[12px] tracking-[0.14em] uppercase min-[480px]:gap-4"
+                >
+                  <dt className="shrink-0 opacity-50">{k}</dt>
+                  <dd className="min-w-0 text-right [overflow-wrap:anywhere]">
+                    {href ? (
+                      <a href={href} className="ratio-link ratio-text-link">
+                        {v}
+                      </a>
+                    ) : (
+                      v
+                    )}
+                  </dd>
+                </div>
+              )
+            })}
           </dl>
         </div>
       </div>

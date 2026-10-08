@@ -51,14 +51,15 @@ function Marked({ text, mark }) {
   )
 }
 
+/** Monochrome ink with the site's two accents — no IDE rainbow. */
 const CODE_COLORS = {
-  kw: '#c678dd',
-  name: '#61afef',
-  op: '#56b6c2',
-  punct: '#d4cfc6',
-  str: '#98c379',
-  comment: '#7d8590',
-  num: '#d19a66',
+  kw: '#8d867b',
+  name: '#ebe6dc',
+  op: '#ffb800',
+  punct: '#6f685e',
+  str: '#ffb800',
+  comment: '#5c554c',
+  num: '#e23c24',
 }
 
 function CodeChars({ text, color }) {
@@ -449,26 +450,26 @@ export default function FitStack({
           <article
             key={band.id}
             data-fit-band={band.id}
-            className="relative flex min-h-[72svh] flex-col overflow-hidden bg-ratio-field text-ratio-ink min-[480px]:min-h-[78svh] md:min-h-svh"
+            className="relative flex min-h-[72svh] flex-col overflow-hidden bg-ratio-field text-ratio-onfield min-[480px]:min-h-[78svh] md:min-h-svh"
           >
             <div className="relative z-10 px-4 pt-10 min-[480px]:px-5 min-[480px]:pt-14 md:px-10 md:pt-20">
-              <p className="font-brico text-[11px] tracking-[0.2em] uppercase text-ratio-ink/45">
+              <p className="font-brico text-[11px] tracking-[0.2em] uppercase text-ratio-onfield/55">
                 0{bi + 1} / STACK
               </p>
-              <h2 className="mt-3 max-w-[14ch] font-syne text-[clamp(2rem,11vw,6.2rem)] font-semibold leading-[0.84] tracking-[-0.05em] uppercase">
+              <h2 className="mt-4 max-w-[14ch] font-syne text-[clamp(3rem,13vw,11.5rem)] font-medium leading-[0.82] tracking-[-0.055em] uppercase">
                 <span className="relative inline-block">
                   {titles[band.titleKey]}
                   <RuptureScript>{titles[band.titleKey]}</RuptureScript>
                 </span>
               </h2>
-              <p className="mt-5 max-w-[32ch] font-brico text-[13px] leading-[1.45] tracking-[0.02em] text-ratio-ink/55 md:mt-6 md:text-[15px]">
+              <p className="mt-6 max-w-[34ch] font-brico text-[15px] leading-[1.45] tracking-[0.005em] text-ratio-onfield/70 md:mt-8 md:text-[18px]">
                 {blurbs[band.blurbKey]}
               </p>
             </div>
 
             <div className="relative z-10 mt-auto">
-              <div className="flex items-center justify-between gap-3 border-y border-ratio-ink/15 px-4 py-2 min-[480px]:px-5 md:px-10">
-                <span className="font-brico text-[10px] tracking-[0.18em] uppercase text-ratio-ink/40">
+              <div className="flex items-center justify-between gap-3 border-y border-ratio-onfield/20 px-4 py-2 min-[480px]:px-5 md:px-10">
+                <span className="font-brico text-[10px] tracking-[0.18em] uppercase text-ratio-onfield/50">
                   tools
                 </span>
                 <span aria-hidden="true" className="size-1.5 bg-[#ffb800]" />

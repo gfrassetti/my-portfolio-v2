@@ -1,42 +1,165 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
+import { getLenis } from '../../../hooks/useLenis'
 
-function StudyMeta({ kicker, meta, index, specs }) {
+function SiteLink({ href, label }) {
+  if (!href) return null
   return (
-    <div className="flex h-full flex-col bg-ratio-paper px-4 py-6 text-ratio-ink min-[640px]:border-r min-[640px]:border-ratio-ink min-[640px]:px-8 min-[640px]:py-10">
-      <div className="flex items-start justify-between gap-4 border-b border-ratio-ink pb-4">
-        <div>
-          <p className="font-brico text-[12px] tracking-[0.04em] text-ratio-ink">
-            <span className="mr-2 text-ratio-mark" aria-hidden="true">
-              ●
-            </span>
-            {kicker}
-          </p>
-          <p className="mt-2 font-brico text-[12px] tracking-[0.04em] text-ratio-ink/50">{meta}</p>
-        </div>
-        <span className="font-brico text-[12px] tracking-[0.08em] text-ratio-ink/50">({index})</span>
-      </div>
-      <dl className="mt-1 text-ratio-ink">
-        {specs.map(([label, value], i) => (
-          <div
-            key={`${label}-${i}`}
-            className="flex items-baseline justify-between gap-4 border-b border-ratio-ink py-3 font-brico text-[13px] tracking-[0.03em]"
-          >
-            <dt className="text-ratio-ink/45">{label}</dt>
-            <dd className="text-ratio-ink">{value}</dd>
-          </div>
+    <a href={href} target="_blank" rel="noreferrer" className="ratio-more group/more">
+      <span>{label}</span>
+      <span className="ratio-more-arrow" aria-hidden="true">
+        <span>→</span>
+        <span>→</span>
+      </span>
+      <span className="ratio-more-line" aria-hidden="true" />
+    </a>
+  )
+}
+
+function goToCase(i) {
+  const el = document.querySelector(`[data-study-step="${i}"]`)
+  if (!el) return
+  const lenis = getLenis()
+  if (lenis) lenis.scrollTo(el, { offset: -48, duration: 1.2 })
+  else el.scrollIntoView({ behavior: 'smooth' })
+}
+
+/** Kin-style index: every case listed, the live one marked, the rest dimmed. */
+function CaseIndex({ names, active, label }) {
+  return (
+    <div className="flex gap-5 font-brico text-[13px] leading-[1.35] min-[640px]:text-[14px]">
+      <span className="shrink-0 tabular-nums text-ratio-ink">
+        [{String(names.length).padStart(2, '0')}] {label}:
+      </span>
+      <ol className="ratio-case-index">
+        {names.map((name, i) => (
+          <li key={name}>
+            <button
+              type="button"
+              onClick={() => goToCase(i)}
+              data-active={i === active ? 'true' : undefined}
+              className="ratio-case-item"
+            >
+              {name}
+            </button>
+          </li>
         ))}
-      </dl>
+      </ol>
     </div>
   )
 }
 
-function StudyCard({ quote, quoteBy, quoteRole, img, avatar, contain, portrait }) {
+function StudyMeta({ kicker, meta, index, total, specs, url, linkLabel, label, names = [] }) {
+  const n = Number(index) || 1
+  return (
+    <div className="flex h-full flex-col bg-ratio-paper px-5 py-7 text-ratio-ink min-[640px]:border-r min-[640px]:border-ratio-ink min-[640px]:px-8 min-[640px]:py-9 lg:px-10">
+      <div className="flex items-center justify-between gap-4 font-brico text-[11px] tracking-[0.14em] uppercase text-ratio-ink/60">
+        <span>
+          {label} ({String(total).padStart(2, '0')})
+        </span>
+        <span className="flex items-center gap-3">
+          <span className="flex items-end gap-[3px]" aria-hidden="true">
+            {Array.from({ length: total }, (_, i) => (
+              <i
+                key={i}
+                className={`block w-[3px] ${
+                  i + 1 === n ? 'h-4 bg-ratio-mark' : i + 1 < n ? 'h-3 bg-ratio-ink' : 'h-3 bg-ratio-ink/25'
+                }`}
+              />
+            ))}
+          </span>
+          <span className="tabular-nums text-ratio-ink">
+            {index} / {String(total).padStart(2, '0')}
+          </span>
+        </span>
+      </div>
+
+      <div className="mt-8 border-t border-ratio-ink pt-6 min-[640px]:mt-10">
+        <p className="font-brico text-[13px] tracking-[0.1em] uppercase text-ratio-ink/55">{meta}</p>
+        <h3 className="mt-3 font-display text-[clamp(2.1rem,4.2vw,3.6rem)] leading-[0.95] font-medium tracking-[-0.035em]">
+          <span className="mr-3 inline-block size-[0.18em] -translate-y-[0.32em] bg-ratio-mark" aria-hidden="true" />
+          {kicker}
+        </h3>
+      </div>
+
+      <dl className="mt-8 text-ratio-ink min-[640px]:mt-10">
+        {specs.map(([label, value], i) => (
+          <div
+            key={`${label}-${i}`}
+            className="ratio-spec flex items-baseline justify-between gap-6 border-t border-ratio-ink/80 py-3.5 font-brico text-[15px] tracking-[0.01em] last:border-b min-[640px]:text-[16px]"
+          >
+            <dt className="text-[12px] tracking-[0.12em] uppercase text-ratio-ink/50">{label}</dt>
+            <dd className="text-right">{value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-x-8 gap-y-8 pt-10">
+        <div className="w-full max-w-[15rem]">
+          <SiteLink href={url} label={linkLabel} />
+        </div>
+        {names.length > 1 ? <CaseIndex names={names} active={n - 1} label={label} /> : null}
+      </div>
+    </div>
+  )
+}
+
+/**
+ * 3D hover: the card leans toward the pointer, the shot slides the other
+ * way inside its frame, and a soft glare follows. Fine pointers only.
+ */
+function useTilt() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return undefined
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return undefined
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    let raf = 0
+    const onMove = (e) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect()
+        const px = (e.clientX - r.left) / r.width - 0.5
+        const py = (e.clientY - r.top) / r.height - 0.5
+        el.dataset.tilting = 'true'
+        el.style.setProperty('--rx', `${(-py * 7).toFixed(2)}deg`)
+        el.style.setProperty('--ry', `${(px * 9).toFixed(2)}deg`)
+        el.style.setProperty('--px', px.toFixed(3))
+        el.style.setProperty('--py', py.toFixed(3))
+        el.style.setProperty('--gx', `${((px + 0.5) * 100).toFixed(1)}%`)
+        el.style.setProperty('--gy', `${((py + 0.5) * 100).toFixed(1)}%`)
+      })
+    }
+    const onLeave = () => {
+      cancelAnimationFrame(raf)
+      delete el.dataset.tilting
+      ;['--rx', '--ry', '--px', '--py'].forEach((k) => el.style.removeProperty(k))
+    }
+    el.addEventListener('pointermove', onMove)
+    el.addEventListener('pointerleave', onLeave)
+    return () => {
+      cancelAnimationFrame(raf)
+      el.removeEventListener('pointermove', onMove)
+      el.removeEventListener('pointerleave', onLeave)
+    }
+  }, [])
+  return ref
+}
+
+const TINT =
+  'grayscale transition-[filter,opacity,translate,scale] duration-700 ease-[var(--ease-out)] group-hover:grayscale-0 group-focus-within:grayscale-0'
+
+function StudyCard({ quote, quoteBy, quoteRole, img, logo, logoFill, contain, focus }) {
   const fit = contain ? 'object-contain p-6 min-[480px]:p-8' : 'object-cover'
-  const avatarFit = portrait || contain ? 'object-contain p-1' : 'object-cover'
+  const tilt = useTilt()
   return (
     <article className="flex min-h-[100svh] flex-col justify-center px-3 py-8 min-[480px]:px-4 min-[480px]:py-10 md:px-8 lg:px-10">
-      <div className="grid min-h-[min(72svh,40rem)] bg-ratio-paper text-ratio-ink min-[480px]:min-h-[72svh] md:grid-cols-2">
+      <div
+        ref={tilt}
+        className="ratio-tilt group relative grid min-h-[min(72svh,40rem)] bg-ratio-paper text-ratio-ink min-[480px]:min-h-[72svh] md:grid-cols-2"
+      >
+        <span className="ratio-tilt-glare" aria-hidden="true" />
         <div className="flex flex-col justify-between gap-8 px-4 py-6 min-[480px]:gap-10 min-[480px]:px-5 min-[480px]:py-8 md:px-9 md:py-10">
           <p className="font-display max-w-[16ch] text-[clamp(1.2rem,5.2vw,2.2rem)] leading-[1.28] italic">
             {quote}
@@ -44,10 +167,14 @@ function StudyCard({ quote, quoteBy, quoteRole, img, avatar, contain, portrait }
           <p className="flex items-center gap-3 font-brico text-[11px] tracking-[0.08em] uppercase">
             <span
               aria-hidden="true"
-              className="size-9 shrink-0 overflow-hidden rounded-full bg-ratio-field"
+              className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-full bg-[#0b0908] ring-1 ring-ratio-ink/20"
             >
-              {avatar ? (
-                <img src={avatar} alt="" className={`size-full grayscale opacity-80 ${avatarFit}`} />
+              {logo ? (
+                <img
+                  src={logo}
+                  alt=""
+                  className={`${logoFill ? 'size-full object-cover' : 'max-h-[58%] max-w-[70%] object-contain'} opacity-85 group-hover:opacity-100 ${TINT}`}
+                />
               ) : null}
             </span>
             <span>
@@ -56,8 +183,15 @@ function StudyCard({ quote, quoteBy, quoteRole, img, avatar, contain, portrait }
             </span>
           </p>
         </div>
-        <figure className="min-h-[42vw] min-[480px]:min-h-[38vh] md:min-h-0">
-          {img ? <img src={img} alt="" className={`h-full w-full grayscale ${fit}`} /> : null}
+        <figure className="min-h-[42vw] overflow-hidden min-[480px]:min-h-[38vh] md:min-h-0">
+          {img ? (
+            <img
+              src={img}
+              alt=""
+              className={`ratio-tilt-media h-full w-full ${fit} ${TINT}`}
+              style={focus ? { objectPosition: focus } : undefined}
+            />
+          ) : null}
         </figure>
       </div>
     </article>
@@ -94,7 +228,7 @@ export default function SplitStudy({
   quoteBy = 'Press room',
   quoteRole = 'Shop floor',
   img,
-  portrait,
+  logo,
   contain = false,
   cases,
   anchor = 'study',
@@ -120,7 +254,7 @@ export default function SplitStudy({
             quoteBy,
             quoteRole,
             img,
-            portrait,
+            logo,
             contain,
           },
         ]
@@ -184,7 +318,12 @@ export default function SplitStudy({
                   kicker={item.kicker}
                   meta={item.meta}
                   index={item.index}
+                  total={items.length}
                   specs={specsOf(item)}
+                  url={item.url}
+                  linkLabel={item.linkLabel}
+                  label={item.listLabel}
+                  names={items.map((c) => c.kicker)}
                 />
               </div>
             ))}
@@ -192,16 +331,20 @@ export default function SplitStudy({
         </aside>
 
         <div className="min-w-0 flex-1 bg-ratio-field text-ratio-paper">
-          {items.map((item) => {
-            const avatar = item.portrait || item.img
+          {items.map((item, i) => {
             return (
-              <div key={`${item.index}-${item.kicker}-card`} data-study-step>
+              <div key={`${item.index}-${item.kicker}-card`} data-study-step={i}>
                 <div className="min-[640px]:hidden">
                   <StudyMeta
                     kicker={item.kicker}
                     meta={item.meta}
                     index={item.index}
+                    total={items.length}
                     specs={specsOf(item)}
+                    url={item.url}
+                    linkLabel={item.linkLabel}
+                    label={item.listLabel}
+                    names={items.map((c) => c.kicker)}
                   />
                 </div>
                 <StudyCard
@@ -209,9 +352,10 @@ export default function SplitStudy({
                   quoteBy={item.quoteBy}
                   quoteRole={item.quoteRole}
                   img={item.img}
-                  avatar={avatar}
+                  logo={item.logo}
+                  logoFill={item.logoFill}
                   contain={item.contain}
-                  portrait={item.portrait}
+                  focus={item.focus}
                 />
               </div>
             )

@@ -1,4 +1,7 @@
 import SmoothScrollProvider from './components/SmoothScrollProvider.jsx'
+import ScrollRail from './components/ScrollRail.jsx'
+import BrutalCursor from './components/BrutalCursor.jsx'
+import Loader from './components/Loader.jsx'
 import NavRatio from './components/sections/ratio/NavRatio.jsx'
 import HeroTools from './components/sections/ratio/HeroTools.jsx'
 import HeroCube from './components/sections/chapters/HeroCube.jsx'
@@ -9,11 +12,16 @@ import SplitStudy from './components/sections/ratio/SplitStudy.jsx'
 import FitStack from './components/sections/ratio/FitStack.jsx'
 import FooterLedger from './components/sections/ratio/FooterLedger.jsx'
 import laserawayShot from './assets/works/laseraway.png'
-import laserawayMark from './assets/works/laseraway-mark.png'
 import clashvaultShot from './assets/works/clashvault.png'
-import mkmusicMark from './assets/works/mkmusicandevents.svg'
+import mkmusicShot from './assets/works/mkmusic.jpg'
 import encuentroShot from './assets/works/encuentro.png'
-import platesThrough from './components/sections/ratio/assets/plates-through.jpg'
+import scrolllabShot from './assets/works/scrolllab.jpg'
+import laserawayLogo from './assets/works/logos/laseraway.png'
+import clashvaultLogo from './assets/works/logos/clashvault.png'
+import mkmusicLogo from './assets/works/logos/mkmusic.png'
+import encuentroLogo from './assets/works/logos/encuentro.png'
+import scrolllabLogo from './assets/works/logos/scrolllab.svg'
+import platesThrough from './components/sections/ratio/assets/plates-through.svg'
 import { useI18n } from './i18n/I18n.jsx'
 import { useIsMobile } from './lib/useIsMobile.js'
 
@@ -37,7 +45,10 @@ export default function App() {
       quoteBy: 'Guido Frassetti',
       quoteRole: t.laseraway.role,
       img: laserawayShot,
-      portrait: laserawayMark,
+      url: 'https://www.laseraway.com',
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: laserawayLogo,
     },
     {
       kicker: t.clashvault.kicker,
@@ -55,6 +66,10 @@ export default function App() {
       quoteBy: 'Guido Frassetti',
       quoteRole: t.clashvault.role,
       img: clashvaultShot,
+      url: 'https://www.clashvault.gg',
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: clashvaultLogo,
     },
     {
       kicker: t.mkmusic.kicker,
@@ -71,8 +86,11 @@ export default function App() {
       quote: t.mkmusic.quote,
       quoteBy: 'Guido Frassetti',
       quoteRole: t.mkmusic.role,
-      img: mkmusicMark,
-      contain: true,
+      img: mkmusicShot,
+      url: 'https://mkmusicandevents.com',
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: mkmusicLogo,
     },
     {
       kicker: t.encuentro.kicker,
@@ -90,6 +108,32 @@ export default function App() {
       quoteBy: 'Guido Frassetti',
       quoteRole: t.encuentro.role,
       img: encuentroShot,
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: encuentroLogo,
+      logoFill: true,
+    },
+    {
+      kicker: t.scrolllab.kicker,
+      meta: t.scrolllab.meta,
+      index: '05',
+      specLabel: t.scrolllab.specLabel,
+      specValue: t.scrolllab.specValue,
+      spec2Label: t.scrolllab.spec2Label,
+      spec2Value: t.scrolllab.spec2Value,
+      spec3Label: t.scrolllab.spec3Label,
+      spec3Value: t.scrolllab.spec3Value,
+      spec4Label: t.scrolllab.spec4Label,
+      spec4Value: t.scrolllab.spec4Value,
+      quote: t.scrolllab.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.scrolllab.role,
+      img: scrolllabShot,
+      url: 'https://www.scrolllab.com.ar',
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: scrolllabLogo,
+      focus: '8% 30%',
     },
   ]
   const noteChapters = [
@@ -115,9 +159,13 @@ export default function App() {
 
   return (
     <SmoothScrollProvider>
+      <ScrollRail />
+      <BrutalCursor />
+      <Loader label={t.loader.label} tag={t.loader.tag} />
       <div id="top" className="bg-ratio-paper text-ratio-ink">
         <NavRatio
-          brand="GUIDO FRASSETTI"
+          brand="Guido Frassetti"
+          role={t.nav.role}
           links={t.nav.links}
           credit={t.nav.credit}
           ruptureLabel={t.nav.rupture}

@@ -3,6 +3,7 @@ import { parseNavLinks } from '../../../lib/navLinks'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { attachScroll, magScale } from '../../../lib/beat'
 import RuptureLayer from './RuptureLayer'
+import { GF_MARK_PATH, GF_MARK_VIEWBOX } from '../../gf-mark'
 
 const LINK_CLASS =
   'px-1.5 py-0.5 text-[10px] tracking-[0.2em] uppercase max-[479px]:px-1 max-[479px]:tracking-[0.14em] md:text-[11px]'
@@ -13,6 +14,7 @@ const LINK_CLASS =
  */
 export default function NavRatio({
   brand = 'RATIO',
+  role = 'Developer',
   links = ['Plates | #intro', 'Notes | #notes', 'Press | #index'],
   linksText,
   credit = '',
@@ -112,6 +114,8 @@ export default function NavRatio({
         players.forEach((p) => p.seek(px))
         const fade = reduced ? (progress > 0.2 ? 0 : 1) : 1 - Math.min(1, progress / 0.28)
         gsap.set(shell, { autoAlpha: fade })
+        // Below lg the full brand can't sit next to three links + locale.
+        wrap.toggleAttribute('data-nav-compact', window.innerWidth < 1024 && progress > 0.5)
         slashes.forEach((el) => {
           gsap.set(el, { opacity: progress > 0.62 ? 0.35 : 0 })
         })
@@ -168,10 +172,29 @@ export default function NavRatio({
         className="fixed inset-x-0 top-0 z-50 border-b border-ratio-ink bg-ratio-paper text-ratio-ink"
       >
         <div className="flex h-11 items-center gap-2 overflow-hidden px-3 text-[10px] tracking-[0.18em] uppercase md:h-12 md:gap-3 md:px-5 md:text-[11px]">
-          <a href="#top" className="max-w-[42vw] shrink-0 truncate font-medium min-[480px]:max-w-none">
-            {brand}
+          <a href="#top" aria-label={`${brand} — ${role}`} className="ratio-brand relative flex shrink-0 items-center">
+            <svg
+              data-brand-mark
+              viewBox={GF_MARK_VIEWBOX}
+              className="h-[18px] w-auto shrink-0 md:h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.25"
+              strokeLinejoin="miter"
+              aria-hidden="true"
+            >
+              <path d={GF_MARK_PATH} vectorEffect="non-scaling-stroke" />
+            </svg>
+            <span
+              data-brand-full
+              aria-hidden="true"
+              className="ml-2 block text-[11px] leading-[1.08] font-medium tracking-[-0.01em] normal-case md:ml-2.5 md:text-[12px]"
+            >
+              <span className="block">{brand}</span>
+              <span className="block opacity-55">{role}</span>
+            </span>
           </a>
-          <div data-nav-slot className="flex min-h-0 min-w-0 flex-1 items-center justify-center">
+          <div data-nav-slot className="flex min-h-0 min-w-0 flex-1 items-center justify-center px-2 md:px-4">
             {items.map((item, i) => (
               <span key={item.label} className="flex items-center">
                 {i > 0 ? (
@@ -186,7 +209,7 @@ export default function NavRatio({
             ))}
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            {credit ? <span className="hidden opacity-45 sm:inline">{credit}</span> : null}
+            {credit ? <span className="hidden opacity-45 lg:inline">{credit}</span> : null}
             <fieldset className="flex items-center gap-1 border-0 p-0">
               <legend className="sr-only">{langLabel}</legend>
               <button
@@ -194,7 +217,7 @@ export default function NavRatio({
                 aria-pressed={locale === 'es'}
                 onClick={() => onLocale?.('es')}
                 className={`ui-press rounded-full px-1.5 py-0.5 ${
-                  locale === 'es' ? 'bg-ratio-ink text-ratio-paper' : 'hover:opacity-55'
+                  locale === 'es' ? 'bg-ratio-ink text-ratio-paper' : 'ratio-link'
                 }`}
               >
                 ES
@@ -207,7 +230,7 @@ export default function NavRatio({
                 aria-pressed={locale === 'en'}
                 onClick={() => onLocale?.('en')}
                 className={`ui-press rounded-full px-1.5 py-0.5 ${
-                  locale === 'en' ? 'bg-ratio-ink text-ratio-paper' : 'hover:opacity-55'
+                  locale === 'en' ? 'bg-ratio-ink text-ratio-paper' : 'ratio-link'
                 }`}
               >
                 EN
@@ -228,7 +251,7 @@ export default function NavRatio({
             key={item.label}
             data-nav-item
             href={item.href}
-            className={`pointer-events-auto fixed z-50 text-ratio-ink opacity-80 transition-opacity duration-200 ease-[var(--ease-out)] hover:opacity-100 active:opacity-50 ${LINK_CLASS}`}
+            className={`ratio-link pointer-events-auto fixed z-50 text-ratio-ink opacity-80 transition-opacity duration-200 ease-[var(--ease-out)] hover:opacity-100 active:opacity-50 ${LINK_CLASS}`}
           >
             {item.label}
           </a>

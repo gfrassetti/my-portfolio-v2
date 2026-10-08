@@ -313,6 +313,19 @@ export function playLoadPath(el, step, s) {
 }`
   el.appendChild(style)
   el.style.animation = `${name} ${total}s ease-out 1 both`
+  // Drop the keyframes once landed: a pin refresh re-parents the node, and a
+  // live CSS animation would replay from 0% (the hero "flicker").
+  el.addEventListener(
+    'animationend',
+    (e) => {
+      if (e.animationName !== name) return
+      el.style.animation = 'none'
+      el.style.transform = `rotate(${toRot}deg)`
+      el.style.setProperty('offset-distance', '0px')
+      style.remove()
+    },
+    { once: true },
+  )
 }
 
 export function openPinOverflow(self) {

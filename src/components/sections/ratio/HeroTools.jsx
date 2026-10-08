@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { gsap, useGSAP } from '../../../lib/gsap'
+import { useEffect, useRef, useState } from 'react'
+import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { tilt } from './rupture'
 import { RuptureOn, RUPTURE_FILL } from './RuptureOn'
 import {
@@ -38,6 +38,8 @@ const TRACK = -10
 /** Gap between ink boxes. Advance + 32 looked like the old 198px cells. */
 const INK_GAP = 0
 const TYPE_Z = 420
+const TYPE_FAMILY = '"Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif'
+const TYPE_WEIGHT = 500
 const CUBE_Z = 200
 
 /** Word 1 letter cells. Mag x is kept only for hop delays. */
@@ -206,8 +208,8 @@ function slotAt(list, i) {
 
 function inkWidth(el, ch, px) {
   const ctx = document.createElement('canvas').getContext('2d')
-  const family = el ? getComputedStyle(el).fontFamily : '"Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif'
-  ctx.font = `400 ${px}px ${family}`
+  const family = el ? getComputedStyle(el).fontFamily : TYPE_FAMILY
+  ctx.font = `${TYPE_WEIGHT} ${px}px ${family}`
   const m = ctx.measureText((ch || 'M').toUpperCase())
   const ink = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || 0)
   return Math.max(ink, m.width * 0.58)
@@ -225,9 +227,9 @@ function paintGlyph(el, s) {
     display: 'block',
     width: 'max-content',
     height: `${0.72 * px}px`,
-    fontFamily: '"Helvetica Now Display", "Helvetica Neue", Helvetica, Arial, sans-serif',
+    fontFamily: TYPE_FAMILY,
     fontSize: `${px}px`,
-    fontWeight: '400',
+    fontWeight: String(TYPE_WEIGHT),
     fontStyle: 'normal',
     lineHeight: '0.72',
     letterSpacing: '0px',
@@ -345,12 +347,29 @@ export default function HeroTools({
   aside = '... type\nfold\nratio.',
 }) {
   const root = useRef(null)
+  // Letter cells are measured from ink widths — measuring the fallback face
+  // and then swapping fonts made the type jump on first paint.
+  const [fontsReady, setFontsReady] = useState(
+    () => typeof document !== 'undefined' && document.fonts?.check?.(`${TYPE_WEIGHT} 100px "Inter Tight"`),
+  )
+  useEffect(() => {
+    if (fontsReady || !document.fonts?.load) return undefined
+    let live = true
+    const done = () => live && setFontsReady(true)
+    document.fonts.load(`${TYPE_WEIGHT} 100px "Inter Tight"`).then(done, done)
+    const bail = setTimeout(done, 3000)
+    return () => {
+      live = false
+      clearTimeout(bail)
+    }
+  }, [fontsReady])
   const form = glyphsOf(word1)
   const just = glyphsOf(word3)
   const power = glyphsOf(word5)
 
   useGSAP(
     () => {
+      if (!fontsReady) return undefined
       const pin = root.current.querySelector('[data-hero-pin]')
       const stage = pin.querySelector('[data-stage]')
       const topBand = pin.querySelector('[data-top-band]')
@@ -486,18 +505,22 @@ export default function HeroTools({
 
       const toolsExtra = Number(stage.querySelector('[data-kind="tools"]')?.dataset.toolsExtra || 0)
 
-      power.forEach((_, i) => {
-        const slot = powerSlot(i)
-        const el = stage.querySelector(`[data-kind="power"][data-i="${i}"]`)
-        placeActor(el, {
-          w: 216,
-          h: 433,
-          x: slot.x + toolsExtra,
-          y: -101,
-          z: slot.z,
+      // BASELINE cells follow real ink widths so wide caps (O, D) never overlap.
+      const powerX = []
+      {
+        const px = FONT * s
+        let run = 0
+        power.forEach((ch, i) => {
+          const slot = powerSlot(i)
+          const el = stage.querySelector(`[data-kind="power"][data-i="${i}"]`)
+          const glyph = el.querySelector('.ratio-glyph')
+          paintGlyph(glyph, s)
+          const x = POWER_SLOTS[0].x + toolsExtra + run / s
+          powerX[i] = x
+          placeActor(el, { w: 216, h: 433, x, y: -101, z: slot.z })
+          run += inkWidth(glyph, ch, px) + 18 * s
         })
-        paintGlyph(el.querySelector('.ratio-glyph'), s)
-      })
+      }
 
       gsap.set(asideEl, { autoAlpha: 0 })
       gsap.set(topBand, { xPercent: 0 })
@@ -509,23 +532,38 @@ export default function HeroTools({
 
       stage.style.opacity = '1'
 
-      form.forEach((_, i) => {
-        const slot = slotAt(FORM_SLOTS, i)
-        const inner = stage.querySelector(`[data-kind="form"][data-i="${i}"] [data-load-ac]`)
-        playLoadPath(
-          inner,
-          {
-            dx: 0,
-            dy: -224,
-            from: -7,
-            rot: 0,
-            acc: 'ease-out',
-            delay: slot.loadDelay,
-            dur: 0.6,
-          },
-          s,
-        )
-      })
+      // Word 1 lands when the loader lifts — playing it underneath wasted the
+      // entrance and the pin refresh at reveal replayed it as a flicker.
+      const formInners = form.map((_, i) =>
+        stage.querySelector(`[data-kind="form"][data-i="${i}"] [data-load-ac]`),
+      )
+      const enter = () => {
+        formInners.forEach((inner, i) => {
+          if (!inner) return
+          inner.style.visibility = ''
+          playLoadPath(
+            inner,
+            {
+              dx: 0,
+              dy: -224,
+              from: -7,
+              rot: 0,
+              acc: 'ease-out',
+              delay: slotAt(FORM_SLOTS, i).loadDelay,
+              dur: 0.6,
+            },
+            s,
+          )
+        })
+      }
+      const ready = document.documentElement.dataset.ready === 'true'
+      if (ready) enter()
+      else {
+        formInners.forEach((inner) => {
+          if (inner) inner.style.visibility = 'hidden'
+        })
+        window.addEventListener('ratio:ready', enter, { once: true })
+      }
 
       const players = []
       const add = (el, steps) => {
@@ -591,18 +629,27 @@ export default function HeroTools({
         const exit = Math.ceil((noteEl.offsetWidth + 48) / s) + 40
         add(noteEl, [{ delay_px: 2100, dx: -exit, dy: 0, speed: 1 }])
       }
-      power.forEach((_, i) => {
-        const slot = powerSlot(i)
-        add(stage.querySelector(`[data-kind="power"][data-i="${i}"]`), [
-          { dx: slot.dx1, dy: 0, speed: 1 },
-          { dx: slot.dx2, dy: slot.dy2, rot: slot.rot, acc: 'ease-out', speed: 1 },
-        ])
+      // Rail only slides BASELINE in. The tumble is contact-driven below:
+      // a scheduled tumble never lined up with the slab edge past the 2nd letter.
+      const powerActs = power.map((_, i) => {
+        const el = stage.querySelector(`[data-kind="power"][data-i="${i}"]`)
+        // Conveyor: one speed, never parks — parked letters piled into each
+        // other. The word keeps its spacing until the slab pops each letter.
+        add(el, [{ dx: -powerX[i] - 2400, dy: 0, speed: 1 }])
+        const glyph = el?.querySelector('.ratio-glyph')
+        const inner = el?.querySelector('[data-load-ac]')
+        const ctx = document.createElement('canvas').getContext('2d')
+        ctx.font = `${TYPE_WEIGHT} ${FONT * s}px ${glyph ? getComputedStyle(glyph).fontFamily : TYPE_FAMILY}`
+        const m = ctx.measureText((power[i] || 'M').toUpperCase())
+        const bearing = -(m.actualBoundingBoxLeft || 0)
+        const inkW = (m.actualBoundingBoxLeft || 0) + (m.actualBoundingBoxRight || 0) || m.width
+        if (inner) gsap.set(inner, { transformOrigin: '50% 60%', x: 0, y: 0, rotation: 0, autoAlpha: 1 })
+        return { el, glyph, inner, bearing, inkW, up: i % 2 === 0 }
       })
 
       const cubeFill = cube.querySelector('[data-load-ac]')
       const cubeFace = cube.querySelector('.ratio-cube-face')
       const theT = stage.querySelector('[data-kind="are"] [data-hit-letter]')
-      const baseLetters = [...stage.querySelectorAll('[data-kind="power"] .ratio-glyph')]
       const foldGlyphs = stage.querySelectorAll('[data-kind="just"] .ratio-glyph')
       const plateGlyphs = stage.querySelectorAll('[data-kind="tools"] .ratio-glyph')
       const letterHit = (cubeBox, el) => {
@@ -648,7 +695,6 @@ export default function HeroTools({
         if (letterHit(cubeBox, theT)) return true
         for (const g of foldGlyphs) if (letterHit(cubeBox, g)) return true
         for (const g of plateGlyphs) if (letterHit(cubeBox, g)) return true
-        for (const g of baseLetters) if (letterHit(cubeBox, g)) return true
         for (let i = 0; i < slugEls.length; i += 1) {
           const item = FURNITURE[i]
           if (item.guide) continue
@@ -710,6 +756,9 @@ export default function HeroTools({
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          // Created after the font gate, i.e. after the sections below it —
+          // refresh it first so their starts include this pin's spacer.
+          refreshPriority: 10,
           onUpdate(self) {
             const px = self.progress * range
             const t = self.progress * (T + holdT)
@@ -760,13 +809,50 @@ export default function HeroTools({
         },
       })
 
+      /**
+       * Contact push: each letter's free ink edge vs the slab's right edge.
+       * Stateless (pure function of the current frame) so scrubbing back
+       * restores letters exactly. Contact phase keeps the letter glued to the
+       * slab; past `release` it is flung off the floor band.
+       */
+      const pushLetters = () => {
+        if (!cubeFill) return
+        const slab = cubeFill.getBoundingClientRect()
+        const slabRight = slab.right
+        powerActs.forEach((a) => {
+          if (!a.el || !a.inner || !a.glyph) return
+          const box = a.el.getBoundingClientRect()
+          const inkLeft = box.left + a.glyph.offsetLeft + a.bearing
+          // Contact needs the slab on the letter's band — not a cube mid-hop.
+          const onBand = slab.bottom > box.bottom - box.height * 0.5 && slab.top < box.bottom
+          const d = onBand ? slabRight - inkLeft : 0
+          if (d <= 0) {
+            gsap.set(a.inner, { x: 0, y: 0, rotation: 0, autoAlpha: 1 })
+            return
+          }
+          // Hit at the exact contact frame, then pop off the floor band fast
+          // enough that the letter clears its neighbour before overlapping it.
+          const W = Math.max(24, a.inkW)
+          const dir = a.up ? -1 : 1
+          gsap.set(a.inner, {
+            x: d,
+            y: dir * (d * 2.1 + Math.pow(d, 1.25) * 0.35),
+            rotation: (d / W) * 125 * (a.up ? 1 : -1),
+            autoAlpha: 1 - Math.min(1, Math.max(0, (d - W * 2.2) / W)),
+          })
+        })
+      }
+
       tl.to({}, { duration: T + holdT }, 0)
+      tl.eventCallback('onUpdate', pushLetters)
       tl.to(asideEl, { autoAlpha: 1, duration: 0.08 }, 1.65)
       if (!narrow) {
         tl.to(cubeFill, { width: pin.offsetWidth, height: cubeSide, duration: 1.2, ease: 'none' }, 2.15)
         tl.to(cubeFill, { width: cubeSide, height: cubeSide, duration: 0.5, ease: 'none' }, 3.35)
       }
-      const typeEls = stage.querySelectorAll('[data-kind]:not([data-kind="cube"]):not([data-kind="slug"])')
+      const typeEls = stage.querySelectorAll(
+        '[data-kind]:not([data-kind="cube"]):not([data-kind="slug"]):not([data-kind="power"])',
+      )
       const fadeAt = narrow ? Math.max(0, growAt - 0.08) : Math.max(growAt + 0.35, T - 0.4)
       tl.to(typeEls, { autoAlpha: 0, duration: narrow ? 0.16 : 0.22 }, fadeAt)
       if (asideEl) tl.to(asideEl, { autoAlpha: 0, duration: 0.12 }, fadeAt)
@@ -780,8 +866,51 @@ export default function HeroTools({
         },
         growAt,
       )
+      // Pointer parallax: blocks and the first word drift on one plane, each
+      // at its own depth. Transforms go on inner nodes the rails never touch
+      // (slug inners, form glyphs) so scroll motion and hit tests stay exact.
+      let stopParallax = () => {}
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const movers = []
+        const addMover = (el, depth) => {
+          if (!el) return
+          movers.push({
+            depth,
+            x: gsap.quickTo(el, 'x', { duration: 1.1, ease: 'power3.out' }),
+            y: gsap.quickTo(el, 'y', { duration: 1.1, ease: 'power3.out' }),
+          })
+        }
+        slugEls.forEach((el, i) => {
+          if (FURNITURE[i].guide) return
+          addMover(el?.querySelector('[data-load-ac]'), 10 + (i % 4) * 7)
+        })
+        stage.querySelectorAll('[data-kind="form"] .ratio-glyph').forEach((g, i) => addMover(g, 14 + i * 4))
+        const drift = (nx, ny) => movers.forEach((m) => {
+          m.x(nx * m.depth * 2)
+          m.y(ny * m.depth * 1.2)
+        })
+        const onMove = (e) => {
+          const r = pin.getBoundingClientRect()
+          if (e.clientY < r.top || e.clientY > r.bottom) return
+          drift(-(e.clientX / window.innerWidth - 0.5), -((e.clientY - r.top) / r.height - 0.5))
+        }
+        const onLeave = () => drift(0, 0)
+        window.addEventListener('pointermove', onMove, { passive: true })
+        document.addEventListener('pointerleave', onLeave)
+        stopParallax = () => {
+          window.removeEventListener('pointermove', onMove)
+          document.removeEventListener('pointerleave', onLeave)
+        }
+      }
+
+      ScrollTrigger.sort()
+      ScrollTrigger.refresh()
+      return () => {
+        window.removeEventListener('ratio:ready', enter)
+        stopParallax()
+      }
     },
-    { scope: root, dependencies: [word1, word2, word3, word4, word5, note] },
+    { scope: root, dependencies: [word1, word2, word3, word4, word5, note, fontsReady] },
   )
 
   return (

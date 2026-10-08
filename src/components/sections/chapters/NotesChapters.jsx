@@ -73,8 +73,8 @@ export default function NotesChapters({
         const fly = () => Math.round((stage?.offsetWidth || pin.offsetWidth) * 0.92)
 
         if (i > 0) {
-          tl.to(layers[i - 1], { autoAlpha: 0, duration: 0.28 }, at)
-          tl.fromTo(layer, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.28 }, at)
+          tl.to(layers[i - 1], { autoAlpha: 0, duration: 0.14 }, at)
+          tl.fromTo(layer, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.16 }, at + 0.08)
         }
         tl.fromTo(
           tools,
