@@ -4,6 +4,7 @@ import Plate from './Plate'
 import { tilt } from './rupture'
 import identity from './assets/case-identity.jpg'
 import editorial from './assets/case-editorial.jpg'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 /**
  * PlateStudy — P1 pin + P2 zoom of the case + P3 crossfade notes.
@@ -40,7 +41,7 @@ export default function PlateStudy({
 
   useGSAP(
     () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      if (reduceScrollMotion()) return
 
       gsap.set('[data-case]', { scale: 0.22, autoAlpha: 0 })
       gsap.set('[data-study-copy]', { autoAlpha: 0, y: 24 })

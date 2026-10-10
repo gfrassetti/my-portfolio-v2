@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { reduceDecorativeMotion } from '../lib/motion'
 
 const INTERACTIVE = 'a, button, [role="button"], input, label[for], select, summary, [data-cursor]'
 
@@ -14,7 +15,7 @@ export default function BrutalCursor() {
   useEffect(() => {
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)')
     if (!fine.matches) return undefined
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = reduceDecorativeMotion()
     const html = document.documentElement
     const d = dot.current
     const r = ring.current

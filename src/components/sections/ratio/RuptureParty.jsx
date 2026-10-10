@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from '../../../lib/gsap'
 import { useRupture } from './rupture'
 import { RuptureFace, RUPTURE_FILL, RUPTURE_INK } from './RuptureOn'
+import { reduceDecorativeMotion } from '../../../lib/motion'
 
 /** Small ink shapes for the burst + drifters. Same stroke language as the faces. */
 function Bit({ kind }) {
@@ -84,7 +85,7 @@ export default function RuptureParty() {
     const turnedOn = on && !was.current
     was.current = on
     if (!turnedOn || !burst.current) return undefined
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    if (reduceDecorativeMotion()) return undefined
 
     const ide = document.querySelector('[data-fit-lid] [data-ide]') || document.querySelector('[data-ide]')
     const r = ide?.getBoundingClientRect()

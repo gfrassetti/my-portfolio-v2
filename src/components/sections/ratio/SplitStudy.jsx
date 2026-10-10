@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { getLenis } from '../../../hooks/useLenis'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 function SiteLink({ href, label }) {
   if (!href) return null
@@ -214,7 +215,7 @@ export default function SplitStudy({
   useGSAP(
     () => {
       if (items.length < 2) return undefined
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+      if (reduceScrollMotion()) return undefined
 
       const mm = gsap.matchMedia()
       mm.add('(min-width: 640px)', () => {

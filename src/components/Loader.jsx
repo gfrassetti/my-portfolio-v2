@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import { getLenis } from '../hooks/useLenis'
+import { reduceScrollMotion } from '../lib/motion'
 
 const MIN_MS = 1700
 
@@ -48,7 +49,7 @@ export default function Loader({ brand = 'GUIDO FRASSETTI', label = 'Loading', t
     }
     holdLenis()
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = reduceScrollMotion()
     const start = performance.now()
     let target = 0
     let shown = 0

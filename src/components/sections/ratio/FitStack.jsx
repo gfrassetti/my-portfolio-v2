@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { gsap, useGSAP, SplitText } from '../../../lib/gsap'
 import { tilt } from './rupture'
 import { RuptureOn, RuptureScript, RupturePlay, RuptureInline } from './RuptureOn'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 const BANDS = [
   {
@@ -235,7 +236,7 @@ export default function FitStack({
     () => {
       const copy = root.current?.querySelector('[data-notes-copy]')
       if (!copy) return undefined
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+      if (reduceScrollMotion()) return undefined
 
       const split = new SplitText(copy, { type: 'words' })
       gsap.from(split.words, {
@@ -257,7 +258,7 @@ export default function FitStack({
   useGSAP(
     () => {
       const chars = gsap.utils.toArray('[data-code-ch]', root.current)
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (reduceScrollMotion()) {
         gsap.set('[data-fit-fall]', { y: 0, rotate: 0, force3D: false })
         gsap.set(chars, { opacity: 1 })
         chars.forEach((el) => {

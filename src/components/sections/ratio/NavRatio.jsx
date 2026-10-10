@@ -4,6 +4,7 @@ import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { attachScroll, magScale } from '../../../lib/beat'
 import RuptureLayer from './RuptureLayer'
 import { GF_MARK_PATH, GF_MARK_VIEWBOX } from '../../gf-mark'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 const LINK_CLASS =
   'px-1.5 py-0.5 text-[10px] tracking-[0.2em] uppercase max-[479px]:px-1 max-[479px]:tracking-[0.14em] md:text-[11px]'
@@ -35,7 +36,7 @@ export default function NavRatio({
       const slashes = gsap.utils.toArray('[data-nav-slash]', wrap)
       if (!shell || pieceEls.length !== phs.length || !pieceEls.length) return undefined
 
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reduced = reduceScrollMotion()
       const isDock = () => window.matchMedia('(max-width: 767px)').matches
       const floorGap = () => (isDock() ? 14 : window.matchMedia('(min-width: 768px)').matches ? 24 : 20)
 

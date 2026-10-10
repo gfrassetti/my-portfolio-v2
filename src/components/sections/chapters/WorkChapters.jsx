@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { gsap, useGSAP } from '../../../lib/gsap'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 /**
  * Mobile work — one pinned frame; cases crossfade on scrub.
@@ -10,7 +11,7 @@ export default function WorkChapters({ cases = [], anchor = 'study' }) {
 
   useGSAP(
     () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+      if (reduceScrollMotion()) return undefined
 
       const pin = root.current?.querySelector('[data-work-pin]')
       const layers = gsap.utils.toArray('[data-work-layer]', root.current)

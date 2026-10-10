@@ -1,3 +1,4 @@
+import { reduceScrollMotion } from '../../../lib/motion'
 import { useEffect, useRef, useState } from 'react'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
 import { tilt } from './rupture'
@@ -367,7 +368,7 @@ export default function HeroTools({
       const topBand = pin.querySelector('[data-top-band]')
       const asideEl = pin.querySelector('[data-aside]')
       const noteEl = pin.querySelector('[data-note]')
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reduced = reduceScrollMotion()
 
       const s = magScale(pin.offsetWidth)
       // Phones run the same choreography; only spacing (dock clearance, block

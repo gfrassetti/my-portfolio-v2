@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import { gsap, ScrollTrigger } from '../lib/gsap'
+import { reduceScrollMotion } from '../lib/motion'
 
 let instance = null
 
@@ -21,7 +22,7 @@ export function getLenis() {
  */
 export function useLenis() {
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    if (reduceScrollMotion()) return undefined
 
     const lenis = new Lenis({
       lerp: 0.1,

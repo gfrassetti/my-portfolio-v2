@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { gsap, useGSAP, SplitText } from '../../../lib/gsap'
 import { tilt } from './rupture'
 import { RuptureOn } from './RuptureOn'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 /**
  * BreakRules — P1 pin + P8 type + grey/white modules.
@@ -32,7 +33,7 @@ export default function BreakRules({
 
   useGSAP(
     () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+      if (reduceScrollMotion()) return
 
       const lines = gsap.utils.toArray('[data-break-line]', root.current)
       const splits = lines.map((el) => new SplitText(el, { type: 'chars', mask: 'chars' }))

@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { gsap, useGSAP, ScrollTrigger } from '../../../lib/gsap'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 /**
  * GF as data: every piece is the same 2×4 bar (h = horizontal, v = vertical),
@@ -96,7 +97,7 @@ export default function FooterLedger({
       }
       layout()
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+      if (reduceScrollMotion()) return undefined
 
       const tl = gsap.timeline({
         defaults: { ease: 'none' },

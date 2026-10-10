@@ -1,3 +1,4 @@
+import { reduceScrollMotion } from '../motion'
 import { gsap, useGSAP } from '../gsap.js'
 import {
   MAG_SCROLL,
@@ -64,7 +65,7 @@ export function useBeatStage(
       const s = magScale(stage.offsetWidth || root.offsetWidth || 1024)
       const map = getRecipes ? getRecipes() : recipes
       const players = []
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reduced = reduceScrollMotion()
 
       collectBeatNodes(stage, map).forEach(({ el, id }) => {
         const raw = map[id]

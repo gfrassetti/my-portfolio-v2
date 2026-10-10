@@ -3,6 +3,7 @@ import { gsap, useGSAP } from '../../../lib/gsap'
 import { attachScroll, magScale } from '../../../lib/beat'
 import { RuptureOn, RuptureScript } from './RuptureOn'
 import { STACK_LOGOS, StackLogo } from './StackMarks.jsx'
+import { reduceScrollMotion } from '../../../lib/motion'
 
 const DEFAULT_PLATES = [
   { index: '01', title: 'Rule', tone: '#16110e' },
@@ -80,7 +81,7 @@ export default function FourPlates({
   // hero. With reduced motion nothing slides, so overlapping would bury the
   // hero under the plates (the hero "vanished" on phones with animations off).
   const reducedMotion =
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    reduceScrollMotion()
   const overlapHero = overlap && !reducedMotion
   const holeMaskId = `ratio-plate-hole-${useId().replace(/:/g, '')}`
   const plates = platesText
@@ -111,7 +112,7 @@ export default function FourPlates({
       const veil = pin.querySelector('[data-plates-veil]')
       const hole = pin.querySelector('[data-plates-hole]')
       const next = pin.querySelector('[data-plates-next]')
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const reduced = reduceScrollMotion()
 
       gsap.set(drawer, { yPercent: reduced || !overlap ? 0 : 100 })
       gsap.set(fills, { transformOrigin: '50% 50%', scale: 1, rotation: 0, autoAlpha: 1 })
