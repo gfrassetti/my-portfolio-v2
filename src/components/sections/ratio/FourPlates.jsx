@@ -76,6 +76,12 @@ export default function FourPlates({
   overlap = true,
 }) {
   const root = useRef(null)
+  // The overlap only makes sense while the plates drawer animates in over the
+  // hero. With reduced motion nothing slides, so overlapping would bury the
+  // hero under the plates (the hero "vanished" on phones with animations off).
+  const reducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const overlapHero = overlap && !reducedMotion
   const holeMaskId = `ratio-plate-hole-${useId().replace(/:/g, '')}`
   const plates = platesText
     ? platesText.split('\n').filter(Boolean).slice(0, 4).map((line, i) => {
@@ -210,7 +216,7 @@ export default function FourPlates({
     <section
       id="systems"
       ref={root}
-      className={`pointer-events-none relative z-[45] text-[#16110e] ${overlap ? '-mt-[100svh]' : ''}`}
+      className={`pointer-events-none relative z-[45] text-[#16110e] ${overlapHero ? '-mt-[100svh]' : ''}`}
     >
       <div data-plates-pin className="pointer-events-none relative h-svh overflow-hidden">
         <div data-plates-next className="invisible absolute inset-0 z-0 bg-ratio-paper" aria-hidden="true">
