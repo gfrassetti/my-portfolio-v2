@@ -110,6 +110,21 @@ export const es = {
       'Estudio de plantillas web storytelling: modelos con scroll animado y parallax, un builder propio y checkout para llevarte el código.',
     role: 'Full Stack Developer',
   },
+  capsula33: {
+    kicker: 'Cápsula33',
+    meta: 'Café — San Martín de los Andes',
+    specLabel: 'rol',
+    specValue: 'full stack',
+    spec2Label: 'stack',
+    spec2Value: 'React · Three.js',
+    spec3Label: 'foco',
+    spec3Value: 'experiencia 3D',
+    spec4Label: 'más',
+    spec4Value: 'GSAP · Lenis · ES/EN/PT',
+    quote:
+      'Cafetería de especialidad contada como una nave: secuencia de abordaje, la cápsula en 3D para girar y un mapa de los Siete Lagos.',
+    role: 'Full Stack Developer',
+  },
   notes: {
     label: '(Notas)',
     one: 'Diseño y construyo productos web modernos: fronts que escalan y back-ends que entregan.',
@@ -266,6 +281,21 @@ export const en = {
     spec4Value: 'builder · e-commerce',
     quote:
       'Storytelling web template studio: scroll-driven, parallax models, an in-house builder, and checkout to take the code home.',
+    role: 'Full Stack Developer',
+  },
+  capsula33: {
+    kicker: 'Cápsula33',
+    meta: 'Café — San Martín de los Andes',
+    specLabel: 'role',
+    specValue: 'full stack',
+    spec2Label: 'stack',
+    spec2Value: 'React · Three.js',
+    spec3Label: 'focus',
+    spec3Value: '3D experience',
+    spec4Label: 'more',
+    spec4Value: 'GSAP · Lenis · ES/EN/PT',
+    quote:
+      'A specialty café told as a spaceship: a boarding sequence, a 3D capsule you can spin, and a Seven Lakes map.',
     role: 'Full Stack Developer',
   },
   notes: {

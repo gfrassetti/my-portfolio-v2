@@ -15,11 +15,13 @@ import clashvaultShot from './assets/works/clashvault.png'
 import mkmusicShot from './assets/works/mkmusic.jpg'
 import encuentroShot from './assets/works/encuentro.png'
 import scrolllabShot from './assets/works/scrolllab.jpg'
+import capsula33Shot from './assets/works/capsula33.jpg'
 import laserawayLogo from './assets/works/logos/laseraway.png'
 import clashvaultLogo from './assets/works/logos/clashvault.png'
 import mkmusicLogo from './assets/works/logos/mkmusic.png'
 import encuentroLogo from './assets/works/logos/encuentro.png'
 import scrolllabLogo from './assets/works/logos/scrolllab.svg'
+import capsula33Logo from './assets/works/logos/capsula33.png'
 import platesThrough from './components/sections/ratio/assets/plates-through.svg'
 import { useI18n } from './i18n/I18n.jsx'
 import { useIsMobile } from './lib/useIsMobile.js'
@@ -133,6 +135,29 @@ export default function App() {
       linkLabel: t.work.link,
       logo: scrolllabLogo,
       focus: '8% 30%',
+    },
+    {
+      kicker: t.capsula33.kicker,
+      meta: t.capsula33.meta,
+      index: '06',
+      specLabel: t.capsula33.specLabel,
+      specValue: t.capsula33.specValue,
+      spec2Label: t.capsula33.spec2Label,
+      spec2Value: t.capsula33.spec2Value,
+      spec3Label: t.capsula33.spec3Label,
+      spec3Value: t.capsula33.spec3Value,
+      spec4Label: t.capsula33.spec4Label,
+      spec4Value: t.capsula33.spec4Value,
+      quote: t.capsula33.quote,
+      quoteBy: 'Guido Frassetti',
+      quoteRole: t.capsula33.role,
+      img: capsula33Shot,
+      url: 'https://capsula33.estudioscrolllab.workers.dev',
+      listLabel: t.work.label,
+      linkLabel: t.work.link,
+      logo: capsula33Logo,
+      logoFill: true,
+      focus: '78% 50%',
     },
   ]
 
